@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-
 // API Key
 
 const cryptoApiKey = 'CG-cau3wxcR1wSjs9iw2Uv6V8Up'
@@ -49,7 +48,7 @@ export function CryptoApi() {
         ))}
       </div> */}
 
-      <h1 className="hidden">dwjsk</h1>
+      <h1 className="text-blue-500">dwjsk</h1>
     </>
   )
 }
