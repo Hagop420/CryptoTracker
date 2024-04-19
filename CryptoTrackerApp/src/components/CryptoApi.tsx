@@ -49,7 +49,7 @@ export function CryptoApi() {
         ))}
       </div> */}
 
-      <h1 className="bg-blue-400">dwjsk</h1>
+      <h1 className="hidden">dwjsk</h1>
     </>
   )
 }
