@@ -15,6 +15,11 @@ import { FaArrowAltCircleDown } from 'react-icons/fa'
 // const cryptoApiKey = 'CG-aUMCTa9KS1trBrKPu1iip2q8'
 
 export function CryptoApi() {
+  // VALIDATION FOR THEME
+  const [themeCheck, setThemeCheck] = useState(
+    localStorage.getItem('theme') ?? 'lofi',
+  )
+
   //   type validation for tsx
 
   type CryptoMappedImagesType = {
@@ -82,17 +87,18 @@ export function CryptoApi() {
         setCrytoMappedApi(data)
 
         console.log(data)
+
+        //   if (themeCheck === 'light') {
+        //     console.log('yay')
+        //   } else {
+        //     console.log('oh no')
+        //   }
       } catch (err) {
         console.log(err)
       }
     }
     cryptoCatagoriesImgFetch()
   }, [])
-
-  // Function to determine arrow color based on percentage change
-  const arrowColor = (percentageChange: number): string => {
-    return percentageChange >= 0 ? '#33ff99' : '#ff3333'
-  }
 
   const buttonRefs = useRef<Array<React.RefObject<HTMLButtonElement>>>([])
 
@@ -133,14 +139,14 @@ export function CryptoApi() {
         {/* Use the buttonRef for the button element */}
         {crytoMappedApi?.map((cryptos, index) => (
           <>
-            <div className="border-2 p-2">
+            <div className="border-2 p-2 BC">
               <h3 className="flex px-3 text-2xl">{`${cryptos.market_cap_rank})`}</h3>
               <div
                 className="flex flex-col justify-start items-center"
                 key={index}
               >
                 <span
-                  className="bg-transparent"
+                  className="bg-transparent ST"
                   ref={buttonRefs.current[index]}
                 >
                   <FontAwesomeIcon
@@ -149,7 +155,7 @@ export function CryptoApi() {
                     className="m-2 starSize hover:cursor-pointer"
                   />
                 </span>
-                <p className="capitalize first-letter:text-yellow-500 first-letter:font-bold">
+                <p className="capitalize first-letter:text-yellow-500 first-letter:font-bold CN">
                   coin:
                 </p>
                 <img
@@ -159,68 +165,65 @@ export function CryptoApi() {
                   title={cryptos.id}
                 />
               </div>
-              <p className="text-center capitalize font-bold p-1">
+              <p className="text-center capitalize font-bold p-1 ST">
                 {cryptos.id}
               </p>
-              <small className="text-center capitalize font-light">
+              <small className="text-center capitalize font-light ST">
                 {`(${cryptos.symbol})`}
               </small>
-              <h3 className="capitalize m-2">current price:</h3>
-              <p className="text-center capitalize font-bold">
+              <h3 className="capitalize m-2 ST">current price:</h3>
+              <p className="text-center capitalize font-bold ST">
                 {formatPrice(cryptos.current_price)}{' '}
               </p>
               <div className="flex flex-col items-center p-4">
-                <h3>24h:</h3>
+                <h3 className="ST">24h:</h3>
+                {cryptos.price_change_24h > -999 ? (
+                  <svg
+                    className="mx-auto"
+                    stroke="currentColor"
+                    fill="currentColor"
+                    strokeWidth="0"
+                    viewBox="0 0 320 512"
+                    height="1em"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      className="text-green-400"
+                      d="M182.6 137.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-9.2 9.2-11.9 22.9-6.9 34.9s16.6 19.8 29.6 19.8H288c12.9 0 24.6-7.8 29.6-19.8s2.2-25.7-6.9-34.9l-128-128z"
+                    ></path>
+                  </svg>
+                ) : (
+                  <svg
+                    className="mx-auto"
+                    stroke="currentColor"
+                    fill="currentColor"
+                    strokeWidth="0"
+                    viewBox="0 0 320 512"
+                    height="1em"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      className="text-red-400"
+                      d="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z"
+                    ></path>
+                  </svg>
+                )}
                 <p
+                  className="font-bold"
                   style={{
-                    color: arrowColor(cryptos.price_change_percentage_24h),
+                    color: 'green',
                   }}
                 >
-                  {cryptos.price_change_24h > -999 ? (
-                    <svg
-                      className="mx-auto"
-                      stroke="currentColor"
-                      fill="currentColor"
-                      strokeWidth="0"
-                      viewBox="0 0 320 512"
-                      height="1em"
-                      width="1em"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        className="text-green-400"
-                        d="M182.6 137.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-9.2 9.2-11.9 22.9-6.9 34.9s16.6 19.8 29.6 19.8H288c12.9 0 24.6-7.8 29.6-19.8s2.2-25.7-6.9-34.9l-128-128z"
-                      ></path>
-                    </svg>
-                  ) : (
-                    <svg
-                      className="mx-auto"
-                      stroke="currentColor"
-                      fill="currentColor"
-                      strokeWidth="0"
-                      viewBox="0 0 320 512"
-                      height="1em"
-                      width="1em"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        className="text-red-400"
-                        d="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z"
-                      ></path>
-                    </svg>
-                  )}
                   {cryptos.price_change_percentage_24h}%
                 </p>
               </div>
 
               <div className="flex flex-col items-center p-4">
-                <h3>1W:</h3>
-                <p
-                  style={{
-                    color: arrowColor(cryptos.market_cap_change_percentage_24h),
-                  }}
-                >
-                  {cryptos.price_change_24h * 3.5 > 7 ? (
+                <h3 className="ST">1W:</h3>
+                <p>
+                  {cryptos.price_change_24h <= (3.5 * 7) / 2 ? (
                     <svg
                       className="mx-auto"
                       stroke="currentColor"
@@ -253,13 +256,17 @@ export function CryptoApi() {
                       ></path>
                     </svg>
                   )}
-                  {(cryptos.price_change_percentage_24h * 7) / 2}%
+                  <p className="text-red-500 font-bold">
+                    {(cryptos.price_change_percentage_24h * 7) / 2}%
+                  </p>
                 </p>
                 <div className="m-1">
-                  <FaArrowAltCircleDown />
+                  <span className="ST">
+                    <FaArrowAltCircleDown />
+                  </span>
                 </div>
-                <h2 className="capitalize p-2">24h volume</h2>
-                <p>{formatPrice(cryptos.total_volume)}</p>
+                <h2 className="capitalize p-2 ST">24h volume</h2>
+                <p className="ST">{formatPrice(cryptos.total_volume)}</p>
               </div>
             </div>
             <hr className="hidden" />
