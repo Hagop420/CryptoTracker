@@ -1,3 +1,10 @@
 .crytoImageHeight {
   height: 150px;
 }
+.starSize {
+  font-size: 16px;
+}
+
+.starSize:hover {
+  color: yellow;
+}
