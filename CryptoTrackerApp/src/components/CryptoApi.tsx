@@ -38,8 +38,11 @@ export function CryptoApi() {
       atl_date: string
       roi: {} | null
       last_updated: string
+      price_change_percentage_24h_in_currency: number
     },
   ]
+
+  // API CALL 1
 
   useEffect(() => {
     async function cryptoCatagoriesImgFetch() {
@@ -51,8 +54,8 @@ export function CryptoApi() {
         const data = await response.json()
 
         setCrytoMappedApi(data)
-        console.log(response)
-        console.log(data)
+        //   console.log(response)
+        //   console.log(data)
       } catch (err) {
         console.log(err)
       }
@@ -62,22 +65,44 @@ export function CryptoApi() {
 
   return (
     <>
-      <div className="flex flex-col items-end">
+      <div className="grid grid-cols-2">
         {crytoMappedApi?.map((cryptos, index) => (
           <>
-            <div className="flex items-center">
-              <h3 className="text-2xl">{`${cryptos.market_cap_rank})`}</h3>
-              <img
-                src={cryptos.image}
-                className="crytoImageHeight object-contain capitalize p-7"
-                alt={`${cryptos.symbol}.`}
-                title={cryptos.id}
-              />
+            <div className="border-2 p-2">
+              <h3 className="flex px-3 text-2xl">{`${cryptos.market_cap_rank})`}</h3>
+              <div
+                className="flex flex-col justify-start items-center"
+                key={index}
+              >
+                <p className="capitalize first-letter:text-yellow-500 first-letter:font-bold">
+                  coin:
+                </p>
+                <img
+                  src={cryptos.image}
+                  className="crytoImageHeight object-contain capitalize p-7"
+                  alt={`${cryptos.symbol}.`}
+                  title={cryptos.id}
+                />
+              </div>
+              <p className="text-center capitalize font-bold p-1">
+                {cryptos.id}
+              </p>
+              <small className="text-center capitalize font-light">
+                {`(${cryptos.symbol})`}
+              </small>
+              <h3 className="capitalize m-2">current price:</h3>
+              <p className="text-center capitalize font-bold">
+                {`$${(
+                  Math.round(cryptos.current_price * 100) / 100
+                ).toString()}`}
+              </p>
+              <div className="flex flex-col items-center p-4">
+                <h3 className="text-red-500">24h:</h3>
+                <p></p>
+                <p className="text-red-500">{cryptos.low_24h}</p>
+              </div>
             </div>
-            <div className="block mx-auto">
-              <p className="text-center">{cryptos.id}</p>
-            </div>
-            <hr />
+            <hr className="hidden" />
           </>
         ))}
       </div>
