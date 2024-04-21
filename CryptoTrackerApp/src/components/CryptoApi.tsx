@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, forwardRef } from 'react'
+import { LightAndDarkMode } from './Navbar'
 import tippy, { Content } from 'tippy.js'
 import 'tippy.js/dist/tippy.css' // Import Tippy.js CSS
 import 'animate.css'
@@ -7,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons'
 import '../css/cryptoApi.css'
 import React from 'react'
+import { FaArrowAltCircleDown } from 'react-icons/fa'
 
 // API Key
 
@@ -126,6 +128,7 @@ export function CryptoApi() {
 
   return (
     <>
+      <LightAndDarkMode />
       <div className="grid grid-cols-2">
         {/* Use the buttonRef for the button element */}
         {crytoMappedApi?.map((cryptos, index) => (
@@ -164,9 +167,6 @@ export function CryptoApi() {
               </small>
               <h3 className="capitalize m-2">current price:</h3>
               <p className="text-center capitalize font-bold">
-                {/* {`$${(
-                  Math.round(cryptos.current_price * 100) / 100
-                ).toString()}`} */}
                 {formatPrice(cryptos.current_price)}{' '}
               </p>
               <div className="flex flex-col items-center p-4">
@@ -176,7 +176,7 @@ export function CryptoApi() {
                     color: arrowColor(cryptos.price_change_percentage_24h),
                   }}
                 >
-                  {cryptos.price_change_percentage_24h > 0 ? (
+                  {cryptos.price_change_24h > -999 ? (
                     <svg
                       className="mx-auto"
                       stroke="currentColor"
@@ -220,7 +220,7 @@ export function CryptoApi() {
                     color: arrowColor(cryptos.market_cap_change_percentage_24h),
                   }}
                 >
-                  {cryptos.market_cap_change_percentage_24h > 0 ? (
+                  {cryptos.price_change_24h * 3.5 > 7 ? (
                     <svg
                       className="mx-auto"
                       stroke="currentColor"
@@ -255,6 +255,11 @@ export function CryptoApi() {
                   )}
                   {(cryptos.price_change_percentage_24h * 7) / 2}%
                 </p>
+                <div className="m-1">
+                  <FaArrowAltCircleDown />
+                </div>
+                <h2 className="capitalize p-2">24h volume</h2>
+                <p>{formatPrice(cryptos.total_volume)}</p>
               </div>
             </div>
             <hr className="hidden" />
