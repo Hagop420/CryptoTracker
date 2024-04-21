@@ -1,46 +1,62 @@
 import { useState, useEffect } from 'react'
+import { FaChevronUp, FaChevronDown } from 'react-icons/fa'
 import '../css/cryptoApi.css'
 
 // API Key
 
-const cryptoApiKey = 'CG-aUMCTa9KS1trBrKPu1iip2q8'
+// const cryptoApiKey = 'CG-aUMCTa9KS1trBrKPu1iip2q8'
 
 export function CryptoApi() {
-  const [crytoMappedApi, setCrytoMappedApi] = useState<CryptoMappedImagesType>()
-
   //   type validation for tsx
 
-  type CryptoMappedImagesType = [
-    {
-      id: string
-      symbol: string
-      name: string
-      image: undefined
-      current_price: number
-      market_cap: number
-      market_cap_rank: number
-      fully_diluted_valuation: number
-      total_volume: number
-      high_24h: number
-      low_24h: number
-      price_change_24h: number
-      price_change_percentage_24h: number
-      market_cap_change_24h: number
-      market_cap_change_percentage_24h: number
-      circulating_supply: number
-      total_supply: number
-      max_supply: number
-      ath: number
-      ath_change_percentage: number
-      ath_date: string
-      atl: number
-      atl_change_percentage: number
-      atl_date: string
-      roi: {} | null
-      last_updated: string
-      price_change_percentage_24h_in_currency: number
-    },
-  ]
+  type CryptoMappedImagesType = {
+    id: string
+    symbol: string
+    name: string
+    image: undefined
+    current_price: number
+    market_cap: number
+    market_cap_rank: number
+    fully_diluted_valuation: number
+    total_volume: number
+    high_24h: number
+    low_24h: number
+    price_change_24h: number
+    price_change_percentage_24h: number
+    market_cap_change_24h: number
+    market_cap_change_percentage_24h: number
+    circulating_supply: number
+    total_supply: number
+    max_supply: number
+    ath: number
+    ath_change_percentage: number
+    ath_date: string
+    atl: number
+    atl_change_percentage: number
+    atl_date: string
+    roi: {} | null
+    last_updated: string
+    price_change_percentage_24h_in_currency: number
+  }
+
+  const [crytoMappedApi, setCrytoMappedApi] = useState<
+    CryptoMappedImagesType[]
+  >([])
+
+  // FUNCTION FOR FORMATTING NUMBERS
+
+  // Function to format prices
+  const formatPrice = (price: number): string => {
+    let formattedPrice: string = (Math.round(price * 100) / 100).toFixed(2)
+
+    // Check if the price is greater than 999
+    if (+formattedPrice > 999) {
+      // Format the price with commas
+      formattedPrice = formattedPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    }
+
+    return `$${formattedPrice}`
+  }
 
   // API CALL 1
 
@@ -54,14 +70,19 @@ export function CryptoApi() {
         const data = await response.json()
 
         setCrytoMappedApi(data)
-        //   console.log(response)
-        //   console.log(data)
+
+        console.log(data)
       } catch (err) {
         console.log(err)
       }
     }
     cryptoCatagoriesImgFetch()
   }, [])
+
+  // Function to determine arrow color based on percentage change
+  const arrowColor = (percentageChange: number): string => {
+    return percentageChange >= 0 ? '#33ff99' : '#ff3333'
+  }
 
   return (
     <>
@@ -92,14 +113,53 @@ export function CryptoApi() {
               </small>
               <h3 className="capitalize m-2">current price:</h3>
               <p className="text-center capitalize font-bold">
-                {`$${(
+                {/* {`$${(
                   Math.round(cryptos.current_price * 100) / 100
-                ).toString()}`}
+                ).toString()}`} */}
+                {formatPrice(cryptos.current_price)}{' '}
               </p>
               <div className="flex flex-col items-center p-4">
-                <h3 className="text-red-500">24h:</h3>
-                <p></p>
-                <p className="text-red-500">{cryptos.low_24h}</p>
+                <h3>24h:</h3>
+                <p
+                  style={{
+                    color: arrowColor(cryptos.price_change_percentage_24h),
+                  }}
+                >
+                  {cryptos.price_change_percentage_24h > 0 ? (
+                    <svg
+                      className="mx-auto"
+                      stroke="currentColor"
+                      fill="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 320 512"
+                      height="1em"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        className="text-green-400"
+                        d="M182.6 137.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-9.2 9.2-11.9 22.9-6.9 34.9s16.6 19.8 29.6 19.8H288c12.9 0 24.6-7.8 29.6-19.8s2.2-25.7-6.9-34.9l-128-128z"
+                      ></path>
+                    </svg>
+                  ) : (
+                    <svg
+                      className="mx-auto"
+                      stroke="currentColor"
+                      fill="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 320 512"
+                      height="1em"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        className="text-red-400"
+                        d="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z"
+                      ></path>
+                    </svg>
+                  )}
+                  {cryptos.price_change_percentage_24h}%
+                </p>
               </div>
             </div>
             <hr className="hidden" />
