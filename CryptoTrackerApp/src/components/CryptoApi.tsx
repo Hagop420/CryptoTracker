@@ -15,20 +15,13 @@ import { FaArrowAltCircleDown } from 'react-icons/fa'
 // const cryptoApiKey = 'CG-aUMCTa9KS1trBrKPu1iip2q8'
 
 export function CryptoApi() {
-  // VALIDATION FOR THEME
-  const [themeCheck, setThemeCheck] = useState(
-    localStorage.getItem('theme') ?? 'lofi',
-  )
-
   //   type validation for tsx
 
   type CryptoMappedImagesType = {
-    ref: any
-    tooltipContent: Content | undefined
     id: string
     symbol: string
     name: string
-    image: undefined
+    image: string
     current_price: number
     market_cap: number
     market_cap_rank: number
@@ -73,6 +66,14 @@ export function CryptoApi() {
     return `$${formattedPrice}`
   }
 
+  function getFirstTwoDecimalNumbers(num: number): number {
+    // Convert the number to a string with two decimal places using toFixed
+    const truncatedString: string = num.toFixed(2)
+    // Parse the truncated string back to a number
+    const truncatedNumber: number = parseFloat(truncatedString)
+    return truncatedNumber
+  }
+
   // API CALL 1
 
   useEffect(() => {
@@ -87,12 +88,6 @@ export function CryptoApi() {
         setCrytoMappedApi(data)
 
         console.log(data)
-
-        //   if (themeCheck === 'light') {
-        //     console.log('yay')
-        //   } else {
-        //     console.log('oh no')
-        //   }
       } catch (err) {
         console.log(err)
       }
@@ -102,12 +97,7 @@ export function CryptoApi() {
 
   const buttonRefs = useRef<Array<React.RefObject<HTMLButtonElement>>>([])
 
-  //   const MyFontAwesomeIcon = forwardRef((props, ref) => (
-  //    <FontAwesomeIcon {...props} ref={ref} />
-  //  ));
-
   useEffect(() => {
-    // Initialize tooltips once data is fetched and rendered
     crytoMappedApi.forEach((_, index) => {
       // Ensure the buttonRefs array has enough space for all buttons
       if (!buttonRefs.current[index]) {
@@ -124,29 +114,45 @@ export function CryptoApi() {
       tippy(buttonRef.current!, {
         content: 'Remember',
         placement: 'top',
-        animation: 'rubberBand',
         theme: 'translucent',
-      })
+        // Additional options as needed
+        appendTo: () => document.body, // Ensuring the tooltip is appended to body
+        allowHTML: true, // Allow HTML content in the tooltip
+        onShow(instance) {
+          // Adding a custom class to the tooltip content
+          const tooltipContent = instance.popper?.querySelector(
+            '.tippy-content',
+          )
 
-      // console.log('Tooltip Instance:', tooltipInstance)
+          if (tooltipContent) {
+            const currentTheme = document.documentElement.getAttribute(
+              'data-theme',
+            )
+            if (currentTheme === 'light') {
+              ;(tooltipContent as HTMLElement).style.color = '#fff'
+              ;(tooltipContent as HTMLElement).style.fontWeight = '#000'
+            } else {
+              ;(tooltipContent as HTMLElement).style.color = 'orange'
+              ;(tooltipContent as HTMLElement).style.fontWeight = 'bold'
+            }
+          }
+        },
+      })
     })
   }, [crytoMappedApi])
 
   return (
     <>
       <LightAndDarkMode />
-      <div className="grid grid-cols-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:hidden">
         {/* Use the buttonRef for the button element */}
         {crytoMappedApi?.map((cryptos, index) => (
           <>
-            <div className="border-2 p-2 BC">
+            <div className="border-2 p-2 BC MHIGHT" key={index}>
               <h3 className="flex px-3 text-2xl">{`${cryptos.market_cap_rank})`}</h3>
-              <div
-                className="flex flex-col justify-start items-center"
-                key={index}
-              >
+              <div className="flex flex-col justify-start items-center">
                 <span
-                  className="bg-transparent ST"
+                  className={`bg-transparent text-color ST`}
                   ref={buttonRefs.current[index]}
                 >
                   <FontAwesomeIcon
@@ -155,6 +161,7 @@ export function CryptoApi() {
                     className="m-2 starSize hover:cursor-pointer"
                   />
                 </span>
+
                 <p className="capitalize first-letter:text-yellow-500 first-letter:font-bold CN">
                   coin:
                 </p>
@@ -216,7 +223,10 @@ export function CryptoApi() {
                     color: 'green',
                   }}
                 >
-                  {cryptos.price_change_percentage_24h}%
+                  {getFirstTwoDecimalNumbers(
+                    cryptos.price_change_percentage_24h,
+                  )}
+                  %
                 </p>
               </div>
 
@@ -257,10 +267,13 @@ export function CryptoApi() {
                     </svg>
                   )}
                   <p className="text-red-500 font-bold">
-                    {(cryptos.price_change_percentage_24h * 7) / 2}%
+                    {getFirstTwoDecimalNumbers(
+                      cryptos.price_change_percentage_24h / 3.5,
+                    )}
+                    %
                   </p>
                 </p>
-                <div className="m-1">
+                <div>
                   <span className="ST">
                     <FaArrowAltCircleDown />
                   </span>
@@ -268,11 +281,41 @@ export function CryptoApi() {
                 <h2 className="capitalize p-2 ST">24h volume</h2>
                 <p className="ST">{formatPrice(cryptos.total_volume)}</p>
               </div>
+              <h2 className="capitalize p-2 ST">Market cap</h2>
+              <p className="ST">{formatPrice(cryptos.market_cap)}</p>
             </div>
             <hr className="hidden" />
           </>
         ))}
       </div>
+
+      {/* END VIEWPORT 1 */}
+
+      <table className="table-auto m-0">
+        <tr>
+          <hr />
+          <div className="capitalize">
+            <th className="ST relative">coin</th>
+            <th className="ST">price</th>
+            <th className="ST">24h</th>
+            <th className="ST">1W</th>
+            <th className="ST">24h volume</th>
+            <th className="ST">market cap</th>
+          </div>
+        </tr>
+
+        <tr>
+          <td className="flex flex-col justify-start items-start">
+            {crytoMappedApi.map((cryptoTBLE) => (
+              <img src={cryptoTBLE.image} alt="" />
+            ))}
+          </td>
+        </tr>
+      </table>
     </>
   )
 }
+
+// {crytoMappedApi.map((cryptoTBLE) => (
+//   <img src={cryptoTBLE.image} alt="" />
+// ))}

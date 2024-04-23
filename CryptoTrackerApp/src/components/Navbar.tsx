@@ -11,6 +11,9 @@ export function LightAndDarkMode() {
       setTheme('light') //light
     }
   }
+
+  // THEME CURRENT STATE
+
   // browser theme
   useEffect(() => {
     localStorage.setItem('theme', theme)
