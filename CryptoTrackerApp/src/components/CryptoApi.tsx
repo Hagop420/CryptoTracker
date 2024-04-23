@@ -291,23 +291,32 @@ export function CryptoApi() {
 
       {/* END VIEWPORT 1 */}
 
-      <table className="table-auto m-0">
-        <tr>
-          <hr />
-          <div className="capitalize">
-            <th className="ST relative">coin</th>
+      <table className="table-auto">
+        <hr />
+        <tr className="">
+          <div className="flex justify-around itmes-center capitalize m-4">
+            <th className="ST p-5 text-center">coin</th>
+            <hr className="invisible" />
             <th className="ST">price</th>
             <th className="ST">24h</th>
             <th className="ST">1W</th>
             <th className="ST">24h volume</th>
             <th className="ST">market cap</th>
           </div>
+          <hr className="p-2" />
         </tr>
 
-        <tr>
-          <td className="flex flex-col justify-start items-start">
+        <tr className="flex relative bottom-20">
+          <td className="flex flex-col  items-start m-4 p-8">
             {crytoMappedApi.map((cryptoTBLE) => (
-              <img src={cryptoTBLE.image} alt="" />
+              <>
+                <img
+                  src={cryptoTBLE.image}
+                  className="crytoImageHeight object-contain capitalize p-8"
+                  alt=""
+                />
+                <hr className="ST" />
+              </>
             ))}
           </td>
         </tr>

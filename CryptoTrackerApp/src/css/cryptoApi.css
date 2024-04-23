@@ -60,8 +60,15 @@
   animation: rubberBand 0.75s;
 }
 
+[data-theme='forest'] .lineBL {
+  color: #ff0000;
+}
+
 @media (min-width: 1280px) {
   #root {
     margin: 3px;
+  }
+  table {
+    width: 94vw;
   }
 }
