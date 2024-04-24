@@ -184,77 +184,40 @@ export function CryptoApi() {
               </p>
               <div className="flex flex-col items-center p-4">
                 <h3 className="ST">24h:</h3>
-                {cryptos.price_change_24h > -999 ? (
-                  <svg
-                    className="mx-auto"
-                    stroke="currentColor"
-                    fill="currentColor"
-                    strokeWidth="0"
-                    viewBox="0 0 320 512"
-                    height="1em"
-                    width="1em"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      className="text-green-400"
-                      d="M182.6 137.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-9.2 9.2-11.9 22.9-6.9 34.9s16.6 19.8 29.6 19.8H288c12.9 0 24.6-7.8 29.6-19.8s2.2-25.7-6.9-34.9l-128-128z"
-                    ></path>
-                  </svg>
+                {(cryptos.price_change_24h / 2) * 100 >=
+                  cryptos.market_cap_change_percentage_24h ||
+                (cryptos.price_change_24h / 2) * 100 <=
+                  cryptos.market_cap_change_percentage_24h ? (
+                  <>
+                    <p className="text-green-400">
+                      <svg
+                        className="mx-auto"
+                        stroke="currentColor"
+                        fill="currentColor"
+                        strokeWidth="0"
+                        viewBox="0 0 320 512"
+                        height="1em"
+                        width="1em"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          className="text-green-400"
+                          d="M182.6 137.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-9.2 9.2-11.9 22.9-6.9 34.9s16.6 19.8 29.6 19.8H288c12.9 0 24.6-7.8 29.6-19.8s2.2-25.7-6.9-34.9l-128-128z"
+                        ></path>
+                      </svg>
+                      {getFirstTwoDecimalNumbers(
+                        cryptos.price_change_percentage_24h,
+                      )}
+                      %
+                    </p>
+                  </>
                 ) : (
-                  <svg
-                    className="mx-auto"
-                    stroke="currentColor"
-                    fill="currentColor"
-                    strokeWidth="0"
-                    viewBox="0 0 320 512"
-                    height="1em"
-                    width="1em"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      className="text-red-400"
-                      d="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z"
-                    ></path>
-                  </svg>
-                )}
-                <p
-                  className="font-bold"
-                  style={{
-                    color: 'green',
-                  }}
-                >
-                  {getFirstTwoDecimalNumbers(
-                    cryptos.price_change_percentage_24h,
-                  )}
-                  %
-                </p>
-              </div>
-
-              <div className="flex flex-col items-center p-4">
-                <h3 className="ST">1W:</h3>
-                <p>
-                  {cryptos.price_change_24h <= (3.5 * 7) / 2 ? (
+                  <>
                     <svg
                       className="mx-auto"
                       stroke="currentColor"
                       fill="currentColor"
-                      stroke-width="0"
-                      viewBox="0 0 320 512"
-                      height="1em"
-                      width="1em"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        className="text-green-400"
-                        d="M182.6 137.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-9.2 9.2-11.9 22.9-6.9 34.9s16.6 19.8 29.6 19.8H288c12.9 0 24.6-7.8 29.6-19.8s2.2-25.7-6.9-34.9l-128-128z"
-                      ></path>
-                    </svg>
-                  ) : (
-                    <svg
-                      className="mx-auto"
-                      stroke="currentColor"
-                      fill="currentColor"
-                      stroke-width="0"
+                      strokeWidth="0"
                       viewBox="0 0 320 512"
                       height="1em"
                       width="1em"
@@ -265,13 +228,63 @@ export function CryptoApi() {
                         d="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z"
                       ></path>
                     </svg>
+                    <p className="text-green-400">
+                      {getFirstTwoDecimalNumbers(
+                        cryptos.price_change_percentage_24h,
+                      )}
+                      %
+                    </p>
+                  </>
+                )}
+              </div>
+
+              <div className="flex flex-col items-center p-4">
+                <h3 className="ST">1W:</h3>
+                <p>
+                  {cryptos.price_change_24h - 7 / 2 <=
+                  cryptos.market_cap_change_percentage_24h ? (
+                    <>
+                      <p className="text-red-400">
+                        <svg
+                          className="mx-auto text-red-400"
+                          stroke="currentColor"
+                          fill="currentColor"
+                          stroke-width="0"
+                          viewBox="0 0 320 512"
+                          height="1em"
+                          width="1em"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path d="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z"></path>
+                        </svg>
+                        {getFirstTwoDecimalNumbers(
+                          cryptos.price_change_percentage_24h / 3.5,
+                        )}
+                        %
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <svg
+                        stroke="currentColor"
+                        fill="currentColor"
+                        className="mx-auto text-green-400"
+                        stroke-width="0"
+                        viewBox="0 0 320 512"
+                        height="1em"
+                        width="1em"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path d="M182.6 137.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-9.2 9.2-11.9 22.9-6.9 34.9s16.6 19.8 29.6 19.8H288c12.9 0 24.6-7.8 29.6-19.8s2.2-25.7-6.9-34.9l-128-128z"></path>
+                      </svg>
+                      <p className="text-green-400 font-bold">
+                        {getFirstTwoDecimalNumbers(
+                          cryptos.price_change_percentage_24h / 3.5,
+                        )}
+                        %
+                      </p>
+                    </>
                   )}
-                  <p className="text-red-500 font-bold">
-                    {getFirstTwoDecimalNumbers(
-                      cryptos.price_change_percentage_24h / 3.5,
-                    )}
-                    %
-                  </p>
                 </p>
                 <div>
                   <span className="ST">
@@ -291,31 +304,46 @@ export function CryptoApi() {
 
       {/* END VIEWPORT 1 */}
 
-      <table className="table-auto">
+      <table className="table-auto flex flex-col justify-center">
         <hr />
-        <tr className="">
-          <div className="flex justify-around itmes-center capitalize m-4">
-            <th className="ST p-5 text-center">coin</th>
+        <tr>
+          <div className="flex justify-around capitalize mx-auto">
+            <th className="ST text-2xl ml-9 text-center first-letter:text-yellow-500">
+              coin
+            </th>
             <hr className="invisible" />
-            <th className="ST">price</th>
-            <th className="ST">24h</th>
-            <th className="ST">1W</th>
-            <th className="ST">24h volume</th>
-            <th className="ST">market cap</th>
+            <th className="ST text-2xl">price</th>
+            <th className="ST text-2xl">24h</th>
+            <th className="ST text-2xl">1W</th>
+            <th className="ST text-2xl">24h volume</th>
+            <th className="ST text-2xl">market cap</th>
           </div>
           <hr className="p-2" />
         </tr>
 
-        <tr className="flex relative bottom-20">
-          <td className="flex flex-col  items-start m-4 p-8">
-            {crytoMappedApi.map((cryptoTBLE) => (
+        <tr className="flex relative bottom-24 right-6">
+          <td className="flex flex-col items-start  m-10 p-8">
+            {crytoMappedApi.map((cryptoTBLE, index) => (
               <>
+                <span className="cryptoNamedAlign text-2xl relative right-8">
+                  <span
+                    className={`relative top-1`}
+                    ref={buttonRefs.current[index]}
+                  >
+                    <FontAwesomeIcon
+                      key={index}
+                      icon={farStar}
+                      className="m-2 mr-3 starSize hover:cursor-pointer"
+                    />
+                  </span>
+                  {`${cryptoTBLE.market_cap_rank})`}
+                </span>
                 <img
                   src={cryptoTBLE.image}
-                  className="crytoImageHeight object-contain capitalize p-8"
+                  className="crytoImageHeight_two object-contain capitalize p-14"
                   alt=""
                 />
-                <hr className="ST" />
+                <div></div>
               </>
             ))}
           </td>

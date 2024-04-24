@@ -1,6 +1,10 @@
 .crytoImageHeight {
   height: 150px;
 }
+
+.crytoImageHeight_two {
+  height: 200px;
+}
 .starSize {
   font-size: 16px;
 }
@@ -10,7 +14,10 @@
 }
 
 /* when theme changes to light/night */
-
+.cryptoNamedAlign {
+  position: relative;
+  top: 111.5px;
+}
 [data-theme='light'] .ST {
   color: #000;
 }
@@ -60,9 +67,9 @@
   animation: rubberBand 0.75s;
 }
 
-[data-theme='forest'] .lineBL {
+/* [data-theme='forest'] .lineBL {
   color: #ff0000;
-}
+} */
 
 @media (min-width: 1280px) {
   #root {
