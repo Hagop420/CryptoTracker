@@ -128,12 +128,16 @@ export function CryptoApi() {
             const currentTheme = document.documentElement.getAttribute(
               'data-theme',
             )
+            const tooltipBubble = instance.popper
             if (currentTheme === 'light') {
               ;(tooltipContent as HTMLElement).style.color = '#fff'
               ;(tooltipContent as HTMLElement).style.fontWeight = '#000'
             } else {
+              // ;(tooltipContent as HTMLElement).parentNode.style.background ===
+              //   '#fff'
               ;(tooltipContent as HTMLElement).style.color = 'orange'
               ;(tooltipContent as HTMLElement).style.fontWeight = 'bold'
+              ;(tooltipContent as HTMLElement).style.background = '#fff'
             }
           }
         },
@@ -301,13 +305,12 @@ export function CryptoApi() {
           </>
         ))}
       </div>
-
       {/* END VIEWPORT 1 */}
-
-      <table className="table-auto flex flex-col justify-center">
+      <table className="flex flex-col">
         <hr />
-        <tr>
-          <div className="flex justify-around capitalize mx-auto">
+        <div>
+          <tr className="flex justify-around m-2 capitalize mx-auto">
+            <th>#</th>
             <th className="ST text-2xl ml-9 text-center first-letter:text-yellow-500">
               coin
             </th>
@@ -317,37 +320,23 @@ export function CryptoApi() {
             <th className="ST text-2xl">1W</th>
             <th className="ST text-2xl">24h volume</th>
             <th className="ST text-2xl">market cap</th>
-          </div>
-          <hr className="p-2" />
-        </tr>
-
-        <tr className="flex relative bottom-24 right-6">
-          <td className="flex flex-col items-start  m-10 p-8">
-            {crytoMappedApi.map((cryptoTBLE, index) => (
+          </tr>
+        </div>
+        <hr className="p-2" />
+        {crytoMappedApi.map((cryptoTBLEData, index) => (
+          <div>
+            <tr className="flex justify-around m-2 capitalize mx-auto">
               <>
-                <span className="cryptoNamedAlign text-2xl relative right-8">
-                  <span
-                    className={`relative top-1`}
-                    ref={buttonRefs.current[index]}
-                  >
-                    <FontAwesomeIcon
-                      key={index}
-                      icon={farStar}
-                      className="m-2 mr-3 starSize hover:cursor-pointer"
-                    />
-                  </span>
-                  {`${cryptoTBLE.market_cap_rank})`}
-                </span>
-                <img
-                  src={cryptoTBLE.image}
-                  className="crytoImageHeight_two object-contain capitalize p-14"
-                  alt=""
-                />
-                <div></div>
+                <h1>hihhkjZz</h1>
+                <h1>hihhkjZz</h1>
+                <h1>hihhkjZz</h1>
+                <h1>hihhkjZz</h1>
+                <h1>hihhkjZz</h1>
+                <h1>hihhkjZz</h1>
               </>
-            ))}
-          </td>
-        </tr>
+            </tr>
+          </div>
+        ))}
       </table>
     </>
   )
