@@ -324,17 +324,17 @@ export function CryptoApi() {
         </div>
         <hr className="p-2" />
         {crytoMappedApi.map((cryptoTBLEData, index) => (
-          <div>
-            <tr className="flex justify-around m-2 capitalize mx-auto">
-              <>
-                <h1>hihhkjZz</h1>
-                <h1>hihhkjZz</h1>
-                <h1>hihhkjZz</h1>
-                <h1>hihhkjZz</h1>
-                <h1>hihhkjZz</h1>
-                <h1>hihhkjZz</h1>
-              </>
-            </tr>
+          <div key={index} className="">
+            <>
+              <tr className="">
+                <td className="flex justify-around">
+                  <h3>{`${cryptoTBLEData.market_cap_rank})`}</h3>
+                  <img src={cryptoTBLEData.image} alt="" className="h-14" />
+
+                  <h2>dk</h2>
+                </td>
+              </tr>
+            </>
           </div>
         ))}
       </table>
