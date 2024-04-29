@@ -325,22 +325,126 @@ export function CryptoApi() {
         <hr className="p-2" />
         {crytoMappedApi.map((cryptoTBLEData, index) => (
           <>
-            <hr />
-            <div>
-              <tr className="flex justify-around capitalize mx-auto m-2">
-                <td className="text-2xl">{`${cryptoTBLEData.market_cap_rank})`}</td>
-                <td className="ST text-2xl mlc-9 text-center first-letter:text-yellow-500">
-                  coin
-                </td>
-                <hr className="invisible" />
-                <td className="ST text-2xl">current price</td>
-                <td className="ST text-2xl">24h</td>
-                <td className="ST text-2xl">1W</td>
-                <td className="ST text-2xl">24h volume</td>
-                <td className="ST text-2xl">market cap</td>
-              </tr>
-            </div>
-            <hr className="" />
+            <tr key={index}>
+              <div>
+                <tr className="flex justify-around capitalize mx-auto m-2">
+                  <td className="text-2xl">{`${cryptoTBLEData.market_cap_rank})`}</td>
+
+                  <img
+                    src={cryptoTBLEData.image}
+                    alt={`${cryptoTBLEData.symbol}.`}
+                  />
+
+                  <hr className="invisible" />
+                  <p className="ST text-2xl">
+                    {formatPrice(cryptoTBLEData.current_price)}{' '}
+                  </p>
+                  <td className="ST">
+                    {(cryptoTBLEData.price_change_24h / 2) * 100 >=
+                      cryptoTBLEData.market_cap_change_percentage_24h ||
+                    (cryptoTBLEData.price_change_24h / 2) * 100 <=
+                      cryptoTBLEData.market_cap_change_percentage_24h ? (
+                      <>
+                        <p className="text-green-400">
+                          <svg
+                            className="mx-auto"
+                            stroke="currentColor"
+                            fill="currentColor"
+                            strokeWidth="0"
+                            viewBox="0 0 320 512"
+                            height="1em"
+                            width="1em"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              className="text-green-400"
+                              d="M182.6 137.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-9.2 9.2-11.9 22.9-6.9 34.9s16.6 19.8 29.6 19.8H288c12.9 0 24.6-7.8 29.6-19.8s2.2-25.7-6.9-34.9l-128-128z"
+                            ></path>
+                          </svg>
+                          {getFirstTwoDecimalNumbers(
+                            cryptoTBLEData.price_change_percentage_24h,
+                          )}
+                          %
+                        </p>
+                      </>
+                    ) : (
+                      <>
+                        <svg
+                          className="mx-auto"
+                          stroke="currentColor"
+                          fill="currentColor"
+                          strokeWidth="0"
+                          viewBox="0 0 320 512"
+                          height="1em"
+                          width="1em"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            className="text-red-400"
+                            d="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z"
+                          ></path>
+                        </svg>
+                        <p className="text-green-400">
+                          {getFirstTwoDecimalNumbers(
+                            cryptoTBLEData.price_change_percentage_24h,
+                          )}
+                          %
+                        </p>
+                      </>
+                    )}
+                  </td>
+                  <td className="ST">
+                    {cryptoTBLEData.price_change_24h - 7 / 2 <=
+                    cryptoTBLEData.market_cap_change_percentage_24h ? (
+                      <>
+                        <p className="text-red-400">
+                          <svg
+                            className="mx-auto text-red-400"
+                            stroke="currentColor"
+                            fill="currentColor"
+                            stroke-width="0"
+                            viewBox="0 0 320 512"
+                            height="1em"
+                            width="1em"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path d="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z"></path>
+                          </svg>
+                          {getFirstTwoDecimalNumbers(
+                            cryptoTBLEData.price_change_percentage_24h / 3.5,
+                          )}
+                          %
+                        </p>
+                      </>
+                    ) : (
+                      <>
+                        <svg
+                          stroke="currentColor"
+                          fill="currentColor"
+                          className="mx-auto text-green-400"
+                          stroke-width="0"
+                          viewBox="0 0 320 512"
+                          height="1em"
+                          width="1em"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path d="M182.6 137.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-9.2 9.2-11.9 22.9-6.9 34.9s16.6 19.8 29.6 19.8H288c12.9 0 24.6-7.8 29.6-19.8s2.2-25.7-6.9-34.9l-128-128z"></path>
+                        </svg>
+                        <p className="text-green-400 font-bold">
+                          {getFirstTwoDecimalNumbers(
+                            cryptoTBLEData.price_change_percentage_24h / 3.5,
+                          )}
+                          %
+                        </p>
+                      </>
+                    )}
+                  </td>
+                  <td className="ST text-2xl">24h volume</td>
+                  <td className="ST text-2xl">market cap</td>
+                </tr>
+              </div>
+              <hr className="" />
+            </tr>
           </>
         ))}
       </table>
