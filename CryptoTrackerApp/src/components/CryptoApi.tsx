@@ -311,11 +311,11 @@ export function CryptoApi() {
         <div>
           <tr className="flex justify-around m-2 capitalize mx-auto">
             <th>#</th>
-            <th className="ST text-2xl ml-9 text-center first-letter:text-yellow-500">
+            <th className="ST text-2xl mlc-9 text-center first-letter:text-yellow-500">
               coin
             </th>
             <hr className="invisible" />
-            <th className="ST text-2xl">price</th>
+            <th className="ST text-2xl">current price</th>
             <th className="ST text-2xl">24h</th>
             <th className="ST text-2xl">1W</th>
             <th className="ST text-2xl">24h volume</th>
@@ -324,18 +324,24 @@ export function CryptoApi() {
         </div>
         <hr className="p-2" />
         {crytoMappedApi.map((cryptoTBLEData, index) => (
-          <div key={index} className="">
-            <>
-              <tr className="">
-                <td className="flex justify-around">
-                  <h3>{`${cryptoTBLEData.market_cap_rank})`}</h3>
-                  <img src={cryptoTBLEData.image} alt="" className="h-14" />
-
-                  <h2>dk</h2>
+          <>
+            <hr />
+            <div>
+              <tr className="flex justify-around capitalize mx-auto m-2">
+                <td className="text-2xl">{`${cryptoTBLEData.market_cap_rank})`}</td>
+                <td className="ST text-2xl mlc-9 text-center first-letter:text-yellow-500">
+                  coin
                 </td>
+                <hr className="invisible" />
+                <td className="ST text-2xl">current price</td>
+                <td className="ST text-2xl">24h</td>
+                <td className="ST text-2xl">1W</td>
+                <td className="ST text-2xl">24h volume</td>
+                <td className="ST text-2xl">market cap</td>
               </tr>
-            </>
-          </div>
+            </div>
+            <hr className="" />
+          </>
         ))}
       </table>
     </>
