@@ -128,14 +128,13 @@ export function CryptoApi() {
             const currentTheme = document.documentElement.getAttribute(
               'data-theme',
             )
-            const tooltipBubble = instance.popper
             if (currentTheme === 'light') {
               ;(tooltipContent as HTMLElement).style.color = '#fff'
               ;(tooltipContent as HTMLElement).style.fontWeight = '#000'
             } else {
               // ;(tooltipContent as HTMLElement).parentNode.style.background ===
               //   '#fff'
-              ;(tooltipContent as HTMLElement).style.color = 'orange'
+              ;(tooltipContent as HTMLElement).style.color = '#000'
               ;(tooltipContent as HTMLElement).style.fontWeight = 'bold'
               ;(tooltipContent as HTMLElement).style.background = '#fff'
             }
@@ -327,13 +326,25 @@ export function CryptoApi() {
           <>
             <tr key={index}>
               <div>
-                <tr className="flex justify-around capitalize mx-auto m-2">
-                  <td className="text-2xl">{`${cryptoTBLEData.market_cap_rank})`}</td>
+                <tr className="flex justify-around capitalize mx-auto m-1">
+                  <span
+                    className={`bg-transparent text-color ST`}
+                    ref={buttonRefs.current[index]}
+                  >
+                    <FontAwesomeIcon
+                      key={index}
+                      icon={farStar}
+                      className="mt-2 starSize hover:cursor-pointer"
+                    />
+                  </span>
+                  <div className="flex">
+                    <p className="">{`${cryptoTBLEData.market_cap_rank})`}</p>
 
-                  <img
-                    src={cryptoTBLEData.image}
-                    alt={`${cryptoTBLEData.symbol}.`}
-                  />
+                    <img
+                      src={cryptoTBLEData.image}
+                      alt={`${cryptoTBLEData.symbol}.`}
+                    />
+                  </div>
 
                   <hr className="invisible" />
                   <p className="ST text-2xl">
@@ -439,8 +450,10 @@ export function CryptoApi() {
                       </>
                     )}
                   </td>
-                  <td className="ST text-2xl">24h volume</td>
-                  <td className="ST text-2xl">market cap</td>
+                  <p className="ST">
+                    {formatPrice(cryptoTBLEData.total_volume)}
+                  </p>
+                  <p className="ST">{formatPrice(cryptoTBLEData.market_cap)}</p>
                 </tr>
               </div>
               <hr className="" />
