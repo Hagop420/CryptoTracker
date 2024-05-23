@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, forwardRef } from 'react'
 import { LightAndDarkMode } from './Navbar'
+import { SearchableFilterInput } from './SearchableFilter'
 import tippy, { Content } from 'tippy.js'
 import 'tippy.js/dist/tippy.css' // Import Tippy.js CSS
 import 'animate.css'
@@ -14,38 +15,38 @@ import { FaArrowAltCircleDown } from 'react-icons/fa'
 
 // const cryptoApiKey = 'CG-aUMCTa9KS1trBrKPu1iip2q8'
 
+export type CryptoMappedImagesType = {
+  id: string
+  symbol: string
+  name: string
+  image: string
+  current_price: number
+  market_cap: number
+  market_cap_rank: number
+  fully_diluted_valuation: number
+  total_volume: number
+  high_24h: number
+  low_24h: number
+  price_change_24h: number
+  price_change_percentage_24h: number
+  market_cap_change_24h: number
+  market_cap_change_percentage_24h: number
+  circulating_supply: number
+  total_supply: number
+  max_supply: number
+  ath: number
+  ath_change_percentage: number
+  ath_date: string
+  atl: number
+  atl_change_percentage: number
+  atl_date: string
+  roi: {} | null
+  last_updated: string
+  price_change_percentage_24h_in_currency: number
+}
+
 export function CryptoApi() {
   //   type validation for tsx
-
-  type CryptoMappedImagesType = {
-    id: string
-    symbol: string
-    name: string
-    image: string
-    current_price: number
-    market_cap: number
-    market_cap_rank: number
-    fully_diluted_valuation: number
-    total_volume: number
-    high_24h: number
-    low_24h: number
-    price_change_24h: number
-    price_change_percentage_24h: number
-    market_cap_change_24h: number
-    market_cap_change_percentage_24h: number
-    circulating_supply: number
-    total_supply: number
-    max_supply: number
-    ath: number
-    ath_change_percentage: number
-    ath_date: string
-    atl: number
-    atl_change_percentage: number
-    atl_date: string
-    roi: {} | null
-    last_updated: string
-    price_change_percentage_24h_in_currency: number
-  }
 
   const [crytoMappedApi, setCrytoMappedApi] = useState<
     CryptoMappedImagesType[]
@@ -146,6 +147,7 @@ export function CryptoApi() {
 
   return (
     <>
+      <SearchableFilterInput quota={setCrytoMappedApi} />
       <LightAndDarkMode />
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:hidden">
         {/* Use the buttonRef for the button element */}
@@ -343,6 +345,8 @@ export function CryptoApi() {
                     <img
                       src={cryptoTBLEData.image}
                       alt={`${cryptoTBLEData.symbol}.`}
+                      className="h-14 p-2 pl-3"
+                      title={cryptoTBLEData.id}
                     />
                   </div>
 
