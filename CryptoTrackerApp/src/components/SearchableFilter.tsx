@@ -1,52 +1,40 @@
-import { ChangeEvent, SetStateAction, useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 import { CryptoMappedImagesType } from './CryptoApi'
+import { CryptoApi } from './CryptoApi'
 
-type PropsQuote = {
-  quota: CryptoMappedImagesType[]
+type BtcFiltered = {
+  btcs: CryptoMappedImagesType[]
 }
 
+export function SearchableList({ btcs }: BtcFiltered) {
+  // current states
+  const [currSearch, setCurrSearch] = useState<string>('')
 
-// type CryptoMappedImagesType = {
-//    searchTerm: string;
-//  };
- 
+  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setCurrSearch(e.target.value)
+  }
 
-export function SearchableFilterInput({ quota }: PropsQuote) {
-   const [currSearch, setCurrSearch] = useState<CryptoMappedImagesType>({ searchTerm: '' });
-   
+  let filteredBtcs = btcs
+  if (currSearch) {
+    filteredBtcs = btcs.filter((quote) =>
+      quote.id.toLowerCase().includes(currSearch.toLowerCase()),
+    )
+  }
 
-   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setCurrSearch({ searchTerm: e.target.value });
-   };
-   
-   const filteredQuotes = quota.filter((quote) => {
-      const searchTerm = currSearch.searchTerm.toLowerCase();
-      const nameOfCrypto = quote.id.toLowerCase(); // Adjust `someField` to match your quote property
-    });
-   
-   return (
-      <>
+  return (
+    <>
       <SearchableListInputCreation
-        inputSearch={(e: { target: { value: SetStateAction<string> } }) =>
-          setCurrSearch(e.target.value)
-         }
-         currSearch={currSearch?.searchTerm || ''}
+        inputSearch={handleSearchChange}
+        currSearch={currSearch}
       />
-           <SearchableQuotesArr
-        quotes={quota.filter((quote) => {
-          if (quota.toLowerCase().includes(currSearch?.toLowerCase())) {
-            return true;
-          } else {
-            return false;
-          }
-        })}
-      
+
+      <APIBtcSearching cryptos={filteredBtcs} />
     </>
   )
 }
 
 type InputSrch = {
-  inputSearch: (index: ChangeEvent<HTMLInputElement>) => void
+  inputSearch: (e: ChangeEvent<HTMLInputElement>) => void
   currSearch: string
 }
 
@@ -59,7 +47,7 @@ export function SearchableListInputCreation({
       <input
         onChange={inputSearch}
         value={currSearch}
-        className="inputTop form-control bg-dark search"
+        className="inputTop form-control text-white bg-black search"
         type="text"
         placeholder="Search..."
       />
@@ -67,19 +55,17 @@ export function SearchableListInputCreation({
   )
 }
 
-type PropsArr = {
-  quotes: CryptoMappedImagesType[]
+type PropsCryptosAPI = {
+  cryptos: CryptoMappedImagesType[]
 }
 
-export function SearchableQuotesArr({ quotes }: PropsArr) {
+export function APIBtcSearching({ cryptos }: PropsCryptosAPI) {
   return (
-    <ul className="list-unstyled d-flex flex-column justify-content-start align-items-start">
-      {quotes.map((q, index) => (
-        <li className="text-left" key={index}>
-          {q}
-        </li>
+    <ul>
+      {cryptos.length === 0 && <h1 className="text-black">No Matches!!</h1>}
+      {cryptos.map((crypto, index) => (
+        <h1></h1>
       ))}
-      {quotes.length === 0 && <p>No Matches!!</p>}
     </ul>
   )
 }

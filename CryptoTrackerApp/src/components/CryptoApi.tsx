@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, forwardRef } from 'react'
 import { LightAndDarkMode } from './Navbar'
-import { SearchableFilterInput } from './SearchableFilter'
+import { SearchableList } from './SearchableFilter'
 import tippy, { Content } from 'tippy.js'
 import 'tippy.js/dist/tippy.css' // Import Tippy.js CSS
 import 'animate.css'
@@ -16,6 +16,10 @@ import { FaArrowAltCircleDown } from 'react-icons/fa'
 // const cryptoApiKey = 'CG-aUMCTa9KS1trBrKPu1iip2q8'
 
 export type CryptoMappedImagesType = {
+  length: number
+  filter(
+    arg0: (quote: CryptoMappedImagesType) => boolean,
+  ): CryptoMappedImagesType[]
   id: string
   symbol: string
   name: string
@@ -147,10 +151,11 @@ export function CryptoApi() {
 
   return (
     <>
-      <SearchableFilterInput quota={setCrytoMappedApi} />
+      <SearchableList btcs={crytoMappedApi} />
       <LightAndDarkMode />
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:hidden">
         {/* Use the buttonRef for the button element */}
+
         {crytoMappedApi?.map((cryptos, index) => (
           <>
             <div className="border-2 p-2 BC MHIGHT" key={index}>
