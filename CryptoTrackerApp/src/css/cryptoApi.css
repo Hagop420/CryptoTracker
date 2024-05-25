@@ -21,6 +21,9 @@
 [data-theme='light'] .ST {
   color: #000;
 }
+[data-theme='forest'] img.btcBL {
+  height: 450px;
+}
 [data-theme='light'] .CN {
   color: #000;
 }
@@ -70,17 +73,3 @@
 /* [data-theme='forest'] .lineBL {
   color: #ff0000;
 } */
-
-@media (min-width: 1280px) {
-  #root {
-    margin: 3px;
-  }
-  body {
-    place-items: unset;
-    display: none;
-  }
-  table {
-    width: 94vw;
-    display: none;
-  }
-}

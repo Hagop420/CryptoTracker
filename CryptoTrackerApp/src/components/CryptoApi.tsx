@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef, forwardRef } from 'react'
+import { useState, useEffect, useRef, forwardRef, ChangeEvent } from 'react'
 import { LightAndDarkMode } from './Navbar'
-import { SearchableList } from './SearchableFilter'
+// import { SearchableList } from './SearchableFilter'
 import tippy, { Content } from 'tippy.js'
 import 'tippy.js/dist/tippy.css' // Import Tippy.js CSS
 import 'animate.css'
@@ -8,8 +8,12 @@ import 'tippy.js/themes/translucent.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons'
 import '../css/cryptoApi.css'
+import noBtcWH from '../assets/img/noBtcWH.jpg'
+import noBtcBL from '../assets/img/noBtcBL.gif'
+import noEntry from '../assets/img/noE.png'
 import React from 'react'
 import { FaArrowAltCircleDown } from 'react-icons/fa'
+import { RiH1 } from 'react-icons/ri'
 
 // API Key
 
@@ -55,6 +59,15 @@ export function CryptoApi() {
   const [crytoMappedApi, setCrytoMappedApi] = useState<
     CryptoMappedImagesType[]
   >([])
+
+  // filter state
+
+  const [filter, setFilter] = useState<string>('')
+
+  // Filtered data based on the filter state
+  const filteredData = crytoMappedApi.filter((item) =>
+    item.id.toLowerCase().includes(filter.toLowerCase()),
+  )
 
   // FUNCTION FOR FORMATTING NUMBERS
 
@@ -149,16 +162,36 @@ export function CryptoApi() {
     })
   }, [crytoMappedApi])
 
+  // length of input is no more than 15
+  const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    if (value.length <= 21) {
+      setFilter(value)
+    }
+  }
+
   return (
     <>
-      <SearchableList btcs={crytoMappedApi} />
-      <LightAndDarkMode />
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:hidden">
+      <div className="">
+        <LightAndDarkMode />
+      </div>
+      {/* filter input */}
+      <div className="m-10">
+        <input
+          type="text"
+          placeholder="Crypto search..."
+          value={filter}
+          className="form-control mx-auto w-96 bg-yellow-400 text-black placeholder:text-black placeholder:p[.5] p-1 border-2 rounded font-bold"
+          onChange={handleFilterChange}
+        />
+      </div>
+      {/* end filtering input */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:hidden">
         {/* Use the buttonRef for the button element */}
 
-        {crytoMappedApi?.map((cryptos, index) => (
+        {filteredData?.map((cryptos, index) => (
           <>
-            <div className="border-2 p-2 BC MHIGHT" key={index}>
+            <div className="border-2 BC MHIGHT" key={index}>
               <h3 className="flex px-3 text-2xl">{`${cryptos.market_cap_rank})`}</h3>
               <div className="flex flex-col justify-start items-center">
                 <span
@@ -312,12 +345,12 @@ export function CryptoApi() {
         ))}
       </div>
       {/* END VIEWPORT 1 */}
-      <table className="flex flex-col">
+      <table className="hidden">
         <hr />
         <div>
           <tr className="flex justify-around m-2 capitalize mx-auto">
             <th>#</th>
-            <th className="ST text-2xl mlc-9 text-center first-letter:text-yellow-500">
+            <th className="ST text-2xl text-center first-letter:text-yellow-500">
               coin
             </th>
             <hr className="invisible" />
@@ -329,7 +362,7 @@ export function CryptoApi() {
           </tr>
         </div>
         <hr className="p-2" />
-        {crytoMappedApi.map((cryptoTBLEData, index) => (
+        {filteredData.map((cryptoTBLEData, index) => (
           <>
             <tr key={index}>
               <div>
@@ -470,6 +503,34 @@ export function CryptoApi() {
           </>
         ))}
       </table>
+      {filteredData.length === 0 && (
+        <>
+          <div className="flex justify-center items-center flex-col mt-20">
+            {filter.length > 20 ? (
+              <div className="flex flex-col m-auto items-center">
+                <img src={noEntry} className="btcBL" alt="" />
+                <p className="m-3 text-2xl">Maximum character's reached</p>
+              </div>
+            ) : (
+              <div className="text-2xl">
+                <img src={noBtcBL} className="btcBL" alt="" />
+                <h2 className="m-3">"{filter}"</h2>
+                <p className="m-3">Currency not found</p>
+              </div>
+            )}
+          </div>
+        </>
+      )}
+      {/* {filter.length > 15 && (
+        <>
+          <div className="flex justify-center items-center flex-col">
+            <img src={noEntry} className="btcBL" alt="" />
+          </div>
+          <div className="flex flex-col items-center mx-auto m-auto text-center justify-center">
+            <h1>Maximum </h1>
+          </div>
+        </>
+      )} */}
     </>
   )
 }
