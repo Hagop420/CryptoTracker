@@ -176,7 +176,7 @@ export function CryptoApi() {
         <LightAndDarkMode />
       </div>
       {/* filter input */}
-      <div className="m-10">
+      <div className="m-7">
         <input
           type="text"
           placeholder="Crypto search..."

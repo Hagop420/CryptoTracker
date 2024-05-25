@@ -13,6 +13,12 @@
   color: yellow;
 }
 
+.animate-spin {
+  animation: spin 3s linear infinite !important;
+  rotate: 20deg;
+  margin-top: 3px;
+}
+
 /* when theme changes to light/night */
 .cryptoNamedAlign {
   position: relative;
