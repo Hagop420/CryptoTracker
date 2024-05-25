@@ -181,7 +181,7 @@ export function CryptoApi() {
           type="text"
           placeholder="Crypto search..."
           value={filter}
-          className="form-control mx-auto w-96 bg-yellow-400 text-black placeholder:text-black placeholder:p[.5] p-1 border-2 rounded font-bold"
+          className="form-control mx-auto w-96 bg-yellow-400 text-black placeholder:text-black placeholder:p-5 p-1 border-2 rounded font-bold search"
           onChange={handleFilterChange}
         />
       </div>
