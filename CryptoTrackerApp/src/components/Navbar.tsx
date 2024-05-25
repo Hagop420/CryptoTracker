@@ -30,7 +30,7 @@ export function LightAndDarkMode() {
         <img src={MtBTC} className="h-10 animate-spin" alt="CoinGecko Inc." />
       </div>
       <div className="flex container justify-end">
-        <h2 className="text-2xl -mr-8">CryptoNest</h2>
+        <h2 className="nestTTl text-black font-semibold">CryptoNest</h2>
       </div>
       {/* <div className="flex text-center items-center">
         <label className="flex cursor-pointer gap-2">
@@ -82,7 +82,7 @@ export function LightAndDarkMode() {
 
           {/* sun icon */}
           <svg
-            className="swap-on fill-current w-10 h-10"
+            className="swap-on fill-current w-10 h-10 text-black"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
           >

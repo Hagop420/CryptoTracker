@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
+
 .crytoImageHeight {
   height: 150px;
 }
@@ -89,3 +91,14 @@
 } */
 
 /*  */
+.nestTTl {
+  font-size: 35px;
+  letter-spacing: 1px;
+  font-family: 'Indie Flower', cursive;
+}
+
+@media (max-width: 768px) {
+  .nestTTl {
+    margin-left: 130px;
+  }
+}
