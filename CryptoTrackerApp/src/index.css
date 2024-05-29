@@ -69,3 +69,19 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+@media (min-width: 1280px) {
+  /* Add this to your global CSS file */
+  body {
+    display: inline;
+  }
+  /* Assuming the root element has an id of "root" */
+  #root {
+    margin: 20px auto;
+    max-width: 1750px;
+  }
+  .TBLgr {
+    height: 100%;
+    width: 100%;
+  }
+}

@@ -64,6 +64,8 @@ export function CryptoApi() {
 
   const [filter, setFilter] = useState<string>('')
 
+  const [inpReq, setInpReq] = useState<any>('')
+
   // Filtered data based on the filter state
   const filteredData = crytoMappedApi.filter((item) =>
     item.id.toLowerCase().includes(filter.toLowerCase()),
@@ -162,11 +164,57 @@ export function CryptoApi() {
     })
   }, [filteredData])
 
+  // effect for the warning on top of the input
+
+  const warnRef = useRef<HTMLParagraphElement>(null)
+
+  useEffect(() => {
+    if (warnRef.current) {
+      tippy(warnRef.current, {
+        content: 'Remember',
+        placement: 'top',
+        theme: 'translucent',
+        appendTo: () => document.body,
+        allowHTML: true,
+        onShow(instance) {
+          const tooltipContent = instance.popper?.querySelector(
+            '.tippy-content',
+          )
+          if (tooltipContent) {
+            const currentTheme = document.documentElement.getAttribute(
+              'data-theme',
+            )
+            if (currentTheme === 'light') {
+              ;(tooltipContent as HTMLElement).style.color = '#fff'
+              ;(tooltipContent as HTMLElement).style.fontWeight = 'bold'
+            } else {
+              ;(tooltipContent as HTMLElement).style.color = '#000'
+              ;(tooltipContent as HTMLElement).style.fontWeight = 'bold'
+              ;(tooltipContent as HTMLElement).style.background = '#fff'
+            }
+          }
+        },
+      })
+    }
+  }, [setFilter])
+
+  // white space regular ex.
+  const regexInp = /^\s*$/
+
   // length of input is no more than 15
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     if (value.length <= 21) {
       setFilter(value)
+    }
+    if (regexInp.test(value)) {
+      setFilter('')
+    }
+
+    if (regexInp.test(value)) {
+      setTimeout(() => {
+        setInpReq('')
+      }, 3000)
     }
   }
 
@@ -175,6 +223,9 @@ export function CryptoApi() {
       <div className="">
         <LightAndDarkMode />
       </div>
+      <p onChange={handleFilterChange} ref={warnRef}>
+        {inpReq}
+      </p>
       {/* filter input */}
       <div className="m-7">
         <input
@@ -348,8 +399,9 @@ export function CryptoApi() {
           </>
         ))}
       </div>
+
       {/* END VIEWPORT 1 */}
-      <table className="hidden">
+      <table className="hidden TBLgr xl:flex xl:flex-col">
         <hr />
         <div>
           <tr className="flex justify-around m-2 capitalize mx-auto">
@@ -381,15 +433,16 @@ export function CryptoApi() {
                       className="mt-2 starSize hover:cursor-pointer"
                     />
                   </span>
-                  <div className="flex">
+                  <div className="flex items-center">
                     <p className="">{`${cryptoTBLEData.market_cap_rank})`}</p>
-
-                    <img
-                      src={cryptoTBLEData.image}
-                      alt={`${cryptoTBLEData.symbol}.`}
-                      className="h-14 p-2 pl-3"
-                      title={cryptoTBLEData.id}
-                    />
+                    <div className="block">
+                      <img
+                        src={cryptoTBLEData.image}
+                        alt={`${cryptoTBLEData.symbol}.`}
+                        className="h-14 p-2 pl-3"
+                        title={cryptoTBLEData.id}
+                      />
+                    </div>
                   </div>
 
                   <hr className="invisible" />
@@ -517,11 +570,21 @@ export function CryptoApi() {
               </div>
             ) : (
               <div className="text-2xl">
-                <img src={noBtcBL} className="btcBL" alt="" />
-                <h2 className="m-3">"{filter}"</h2>
-                <p className="m-3">Currency not found</p>
+                <img
+                  src={noBtcBL}
+                  className={regexInp.test(filter) ? 'hidden' : 'btcBL'}
+                  alt=""
+                />
+                <h2 className={regexInp.test(filter) ? 'hidden' : 'm-3'}>
+                  "{filter}"
+                </h2>
+                <p className={regexInp.test(filter) ? 'hidden' : 'm-3'}>
+                  Currency not found
+                </p>
               </div>
             )}
+
+            {/* {regexInp.test(filter) ? <p>x</p> : <p>ssxxsfdfd</p>} */}
           </div>
         </>
       )}
