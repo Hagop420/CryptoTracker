@@ -113,13 +113,13 @@ export function CryptoApi() {
     cryptoCatagoriesImgFetch()
   }, [])
 
-  const buttonRefs = useRef<Array<React.RefObject<HTMLButtonElement>>>([])
+  const buttonRefs = useRef<Array<React.RefObject<HTMLDivElement>>>([])
 
   useEffect(() => {
-    crytoMappedApi.forEach((_, index) => {
+    filteredData.forEach((_, index) => {
       // Ensure the buttonRefs array has enough space for all buttons
       if (!buttonRefs.current[index]) {
-        buttonRefs.current[index] = React.createRef<HTMLButtonElement>()
+        buttonRefs.current[index] = React.createRef<HTMLDivElement>()
       }
     })
 
@@ -160,7 +160,7 @@ export function CryptoApi() {
         },
       })
     })
-  }, [crytoMappedApi])
+  }, [filteredData])
 
   // length of input is no more than 15
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -181,7 +181,11 @@ export function CryptoApi() {
           type="text"
           placeholder="Crypto search..."
           value={filter}
-          className="form-control mx-auto w-96 bg-yellow-400 text-black placeholder:text-black placeholder:p-5 p-1 border-2 rounded font-bold search"
+          className={
+            filter.length > 0
+              ? 'form-control mx-auto w-96 bg-yellow-400 text-black placeholder:text-black placeholder:p-5 p-1 rounded font-bold'
+              : 'form-control mx-auto w-96 bg-yellow-400 text-black placeholder:text-black placeholder:p-5 p-1 border-2 rounded font-bold search'
+          }
           onChange={handleFilterChange}
         />
       </div>
@@ -194,8 +198,8 @@ export function CryptoApi() {
             <div className="border-2 BC MHIGHT" key={index}>
               <h3 className="flex px-3 text-2xl">{`${cryptos.market_cap_rank})`}</h3>
               <div className="flex flex-col justify-start items-center">
-                <span
-                  className={`bg-transparent text-color ST`}
+                <div
+                  className={`bg-transparent text-color border-0 ST`}
                   ref={buttonRefs.current[index]}
                 >
                   <FontAwesomeIcon
@@ -203,7 +207,7 @@ export function CryptoApi() {
                     icon={farStar}
                     className="m-2 starSize hover:cursor-pointer"
                   />
-                </span>
+                </div>
 
                 <p className="capitalize first-letter:text-yellow-500 first-letter:font-bold CN">
                   coin:
