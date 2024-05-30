@@ -166,37 +166,46 @@ export function CryptoApi() {
 
   // effect for the warning on top of the input
 
-  const warnRef = useRef<HTMLParagraphElement>(null)
+  const warning_refrence_A = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (warnRef.current) {
-      tippy(warnRef.current, {
-        content: 'Remember',
-        placement: 'top',
-        theme: 'translucent',
-        appendTo: () => document.body,
-        allowHTML: true,
-        onShow(instance) {
-          const tooltipContent = instance.popper?.querySelector(
-            '.tippy-content',
-          )
-          if (tooltipContent) {
-            const currentTheme = document.documentElement.getAttribute(
-              'data-theme',
-            )
-            if (currentTheme === 'light') {
-              ;(tooltipContent as HTMLElement).style.color = '#fff'
-              ;(tooltipContent as HTMLElement).style.fontWeight = 'bold'
-            } else {
-              ;(tooltipContent as HTMLElement).style.color = '#000'
-              ;(tooltipContent as HTMLElement).style.fontWeight = 'bold'
-              ;(tooltipContent as HTMLElement).style.background = '#fff'
-            }
-          }
-        },
-      })
+    function warning_animation_functionallity() {
+      if (!warning_refrence_A.current) return
+
+      const warnDiv = document.querySelector('.warn_anim')
+      if (warnDiv === null) return
+
+      const warnDivPos = warnDiv.getBoundingClientRect().top
+      const viewportHeight = window.innerHeight
+
+      if (warnDivPos < viewportHeight) {
+        warnDiv.classList.add('warn_anim_appeared')
+      }
+
+      // const about_image = document.querySelector('.warn_anim')
+      // const image_animation_function_pos = about_image?.getBoundingClientRect()
+      //   .top
+
+      // const screenImagePosition = window.innerHeight
+      // if (image_animation_function_pos === undefined) return
+      // if (about_image === null) return
+
+      // if (image_animation_function_pos < screenImagePosition) {
+      //   about_image.classList.add('warn_anim_appeared')
+      // }
     }
-  }, [setFilter])
+
+    // Call the animation function immediately when the component mounts
+    // warning_animation_functionallity()
+
+    // Add scroll event listener
+    window.addEventListener('load', warning_animation_functionallity)
+
+    // Cleanup function to remove the event listener
+    // return () => {
+    //   window.removeEventListener('scroll', warning_animation_functionallity)
+    // }
+  }, [])
 
   // white space regular ex.
   const regexInp = /^\s*$/
@@ -210,11 +219,18 @@ export function CryptoApi() {
     if (regexInp.test(value)) {
       setFilter('')
     }
+    if (!regexInp.test(value)) {
+      setInpReq('')
+    }
+
+    if (value.length === 0) {
+      setInpReq('')
+    }
 
     if (regexInp.test(value)) {
       setTimeout(() => {
-        setInpReq('')
-      }, 3000)
+        setInpReq('No starting empty space allowed')
+      }, 1000)
     }
   }
 
@@ -223,9 +239,15 @@ export function CryptoApi() {
       <div className="">
         <LightAndDarkMode />
       </div>
-      <p onChange={handleFilterChange} ref={warnRef}>
-        {inpReq}
-      </p>
+      <div className="flex flex-col items-center">
+        <p
+          onChange={handleFilterChange}
+          className="warn_anim p-1"
+          ref={warning_refrence_A}
+        >
+          {inpReq}
+        </p>
+      </div>
       {/* filter input */}
       <div className="m-7">
         <input
@@ -402,9 +424,21 @@ export function CryptoApi() {
 
       {/* END VIEWPORT 1 */}
       <table className="hidden TBLgr xl:flex xl:flex-col">
-        <hr />
+        <hr
+          className={
+            regexInp.test(filter)
+              ? 'flex justify-around m-2 capitalize mx-auto'
+              : 'hidden'
+          }
+        />
         <div>
-          <tr className="flex justify-around m-2 capitalize mx-auto">
+          <tr
+            className={
+              regexInp.test(filter)
+                ? 'flex justify-around m-2 capitalize mx-auto'
+                : 'hidden'
+            }
+          >
             <th>#</th>
             <th className="ST text-2xl text-center first-letter:text-yellow-500">
               coin
@@ -417,7 +451,13 @@ export function CryptoApi() {
             <th className="ST text-2xl">market cap</th>
           </tr>
         </div>
-        <hr className="p-2" />
+        <hr
+          className={
+            regexInp.test(filter)
+              ? 'flex justify-around m-2 capitalize mx-auto'
+              : 'hidden'
+          }
+        />
         {filteredData.map((cryptoTBLEData, index) => (
           <>
             <tr key={index}>

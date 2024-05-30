@@ -102,3 +102,15 @@
     margin-left: 130px;
   }
 }
+.warn_anim {
+  opacity: 0;
+  transform: translateY(9px);
+  display: none;
+  transition: 2s all ease-in-out;
+  color: #fff;
+}
+.warn_anim_appeared {
+  opacity: 1;
+  display: flex;
+  transform: translateY(0);
+}
