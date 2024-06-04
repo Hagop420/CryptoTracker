@@ -64,7 +64,9 @@ export function CryptoApi() {
 
   const [filter, setFilter] = useState<string>('')
 
-  const [inpReq, setInpReq] = useState<any>('')
+  const [inpReq, setInpReq] = useState<string>('')
+
+  const [inpReqOk, setInpReqOk] = useState<string>('')
 
   // Filtered data based on the filter state
   const filteredData = crytoMappedApi.filter((item) =>
@@ -164,49 +166,6 @@ export function CryptoApi() {
     })
   }, [filteredData])
 
-  // effect for the warning on top of the input
-
-  const warning_refrence_A = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    function warning_animation_functionallity() {
-      if (!warning_refrence_A.current) return
-
-      const warnDiv = document.querySelector('.warn_anim')
-      if (warnDiv === null) return
-
-      const warnDivPos = warnDiv.getBoundingClientRect().top
-      const viewportHeight = window.innerHeight
-
-      if (warnDivPos < viewportHeight) {
-        warnDiv.classList.add('warn_anim_appeared')
-      }
-
-      // const about_image = document.querySelector('.warn_anim')
-      // const image_animation_function_pos = about_image?.getBoundingClientRect()
-      //   .top
-
-      // const screenImagePosition = window.innerHeight
-      // if (image_animation_function_pos === undefined) return
-      // if (about_image === null) return
-
-      // if (image_animation_function_pos < screenImagePosition) {
-      //   about_image.classList.add('warn_anim_appeared')
-      // }
-    }
-
-    // Call the animation function immediately when the component mounts
-    // warning_animation_functionallity()
-
-    // Add scroll event listener
-    window.addEventListener('load', warning_animation_functionallity)
-
-    // Cleanup function to remove the event listener
-    // return () => {
-    //   window.removeEventListener('scroll', warning_animation_functionallity)
-    // }
-  }, [])
-
   // white space regular ex.
   const regexInp = /^\s*$/
 
@@ -220,32 +179,72 @@ export function CryptoApi() {
       setFilter('')
     }
     if (!regexInp.test(value)) {
-      setInpReq('')
+      setInpReqOk('')
     }
 
     if (value.length === 0) {
       setInpReq('')
     }
 
-    if (regexInp.test(value)) {
-      setTimeout(() => {
-        setInpReq('No starting empty space allowed')
-      }, 1000)
+    if (regexInp.test(value) && value.length !== 0) {
+      setInpReq('No starting empty space allowed')
     }
   }
+
+  const warning_refrence_A = useRef<HTMLDivElement>(null)
+
+  function warning_animation_functionallity() {
+    if (!warning_refrence_A.current) return
+
+    const warnDiv = document.querySelector('.warn_anim')
+    if (warnDiv === null) return
+
+    const warnDivPos = warnDiv.getBoundingClientRect().top
+    const viewportHeight = window.innerHeight
+
+    if (warnDivPos < viewportHeight) {
+      warnDiv.classList.add('warn_anim_appeared')
+    }
+  }
+
+  // if statment in input is filled
+
+  function good_animation_functionallity() {
+    if (!warning_refrence_A.current) return
+
+    const warnDiv = document.querySelector('.warn_anim')
+    if (warnDiv === null) return
+
+    const warnDivPos = warnDiv.getBoundingClientRect().top
+    const viewportHeight = window.innerHeight
+
+    if (warnDivPos < viewportHeight) {
+      warnDiv.classList.add('ok_anim_appeared')
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener('load', warning_animation_functionallity)
+  })
+
+  useEffect(() => {
+    window.addEventListener('load', good_animation_functionallity)
+  })
 
   return (
     <>
       <div className="">
         <LightAndDarkMode />
       </div>
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center warn_anim">
         <p
           onChange={handleFilterChange}
-          className="warn_anim p-1"
+          className={
+            regexInp.test(filter) ? 'text-white bg-transparent rounded p-1' : ''
+          }
           ref={warning_refrence_A}
         >
-          {inpReq}
+          {regexInp.test(filter) ? inpReq : inpReqOk}
         </p>
       </div>
       {/* filter input */}
@@ -431,38 +430,30 @@ export function CryptoApi() {
               : 'hidden'
           }
         />
-        <div>
-          <tr
-            className={
-              regexInp.test(filter)
-                ? 'flex justify-around m-2 capitalize mx-auto'
-                : 'hidden'
-            }
-          >
-            <th>#</th>
-            <th className="ST text-2xl text-center first-letter:text-yellow-500">
-              coin
-            </th>
-            <hr className="invisible" />
-            <th className="ST text-2xl">current price</th>
-            <th className="ST text-2xl">24h</th>
-            <th className="ST text-2xl">1W</th>
-            <th className="ST text-2xl">24h volume</th>
-            <th className="ST text-2xl">market cap</th>
-          </tr>
-        </div>
-        <hr
-          className={
-            regexInp.test(filter)
-              ? 'flex justify-around m-2 capitalize mx-auto'
-              : 'hidden'
-          }
-        />
+        {filteredData.length !== 0 && (
+          <div>
+            <tr className="flex justify-around m-2 capitalize mx-auto">
+              {/* {filteredData.length === 0 &&} */}
+
+              <th>#</th>
+              <th className="ST text-2xl text-center first-letter:text-yellow-500">
+                coin
+              </th>
+              <hr className="invisible" />
+              <th className="ST text-2xl">current price</th>
+              <th className="ST text-2xl">24h</th>
+              <th className="ST text-2xl">1W</th>
+              <th className="ST text-2xl">24h volume</th>
+              <th className="ST text-2xl">market cap</th>
+            </tr>
+          </div>
+        )}
+        {filteredData.length !== 0 && <hr className="border-t-4 mb-2" />}
         {filteredData.map((cryptoTBLEData, index) => (
           <>
             <tr key={index}>
               <div>
-                <tr className="flex justify-around capitalize mx-auto m-1">
+                <tr className="flex justify-around capitalize mx-auto m-1 items-center">
                   <span
                     className={`bg-transparent text-color ST`}
                     ref={buttonRefs.current[index]}
@@ -613,7 +604,7 @@ export function CryptoApi() {
                 <img
                   src={noBtcBL}
                   className={regexInp.test(filter) ? 'hidden' : 'btcBL'}
-                  alt=""
+                  alt="NO CURRENCY."
                 />
                 <h2 className={regexInp.test(filter) ? 'hidden' : 'm-3'}>
                   "{filter}"
@@ -628,20 +619,6 @@ export function CryptoApi() {
           </div>
         </>
       )}
-      {/* {filter.length > 15 && (
-        <>
-          <div className="flex justify-center items-center flex-col">
-            <img src={noEntry} className="btcBL" alt="" />
-          </div>
-          <div className="flex flex-col items-center mx-auto m-auto text-center justify-center">
-            <h1>Maximum </h1>
-          </div>
-        </>
-      )} */}
     </>
   )
 }
-
-// {crytoMappedApi.map((cryptoTBLE) => (
-//   <img src={cryptoTBLE.image} alt="" />
-// ))}
