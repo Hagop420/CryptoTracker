@@ -5,7 +5,6 @@ import tippy, { Content } from 'tippy.js'
 import 'tippy.js/dist/tippy.css' // Import Tippy.js CSS
 import 'animate.css'
 import 'tippy.js/themes/translucent.css'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons'
 import '../css/cryptoApi.css'
 import noBtcWH from '../assets/img/noBtcWH.jpg'
@@ -14,6 +13,10 @@ import noEntry from '../assets/img/noE.png'
 import React from 'react'
 import { FaArrowAltCircleDown } from 'react-icons/fa'
 import { RiH1 } from 'react-icons/ri'
+import { SiPanasonic } from 'react-icons/si'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faStar as faStarRegular } from '@fortawesome/free-regular-svg-icons'
+import { faStar as faStarSolid } from '@fortawesome/free-solid-svg-icons'
 
 // API Key
 
@@ -72,6 +75,14 @@ export function CryptoApi() {
   const filteredData = crytoMappedApi.filter((item) =>
     item.id.toLowerCase().includes(filter.toLowerCase()),
   )
+
+  // star clr state
+
+  const [isFilled, setIsFilled] = useState(false)
+
+  // star clr
+
+  const [color, setColor] = useState<string>('')
 
   // FUNCTION FOR FORMATTING NUMBERS
 
@@ -187,64 +198,27 @@ export function CryptoApi() {
     }
 
     if (regexInp.test(value) && value.length !== 0) {
-      setInpReq('No starting empty space allowed')
+      setInpReq(' ❌ No starting empty space allowed ❌')
     }
   }
 
-  const warning_refrence_A = useRef<HTMLDivElement>(null)
-
-  function warning_animation_functionallity() {
-    if (!warning_refrence_A.current) return
-
-    const warnDiv = document.querySelector('.warn_anim')
-    if (warnDiv === null) return
-
-    const warnDivPos = warnDiv.getBoundingClientRect().top
-    const viewportHeight = window.innerHeight
-
-    if (warnDivPos < viewportHeight) {
-      warnDiv.classList.add('warn_anim_appeared')
-    }
+  function startClckedFav() {
+    // changing the star color to filled when clicked
+    setIsFilled(!isFilled)
   }
-
-  // if statment in input is filled
-
-  function good_animation_functionallity() {
-    if (!warning_refrence_A.current) return
-
-    const warnDiv = document.querySelector('.warn_anim')
-    if (warnDiv === null) return
-
-    const warnDivPos = warnDiv.getBoundingClientRect().top
-    const viewportHeight = window.innerHeight
-
-    if (warnDivPos < viewportHeight) {
-      warnDiv.classList.add('ok_anim_appeared')
-    }
-  }
-
-  useEffect(() => {
-    window.addEventListener('scroll', warning_animation_functionallity)
-  })
-
-  useEffect(() => {
-    window.addEventListener('load', good_animation_functionallity)
-  })
 
   return (
     <>
-      <div className="">
+      <div>
         <LightAndDarkMode />
       </div>
-      <div className="flex flex-col items-center warn_anim">
-        <p
-          onChange={handleFilterChange}
-          className={
-            regexInp.test(filter) ? 'text-white bg-transparent rounded p-1' : ''
-          }
-          ref={warning_refrence_A}
-        >
-          {regexInp.test(filter) ? inpReq : inpReqOk}
+      <div className="flex flex-col items-center">
+        <p onChange={handleFilterChange}>
+          {regexInp.test(filter) ? (
+            <span className="Blvk">{inpReq}</span>
+          ) : (
+            <span>{inpReqOk}</span>
+          )}
         </p>
       </div>
       {/* filter input */}
@@ -255,8 +229,8 @@ export function CryptoApi() {
           value={filter}
           className={
             filter.length > 0
-              ? 'form-control mx-auto w-96 bg-yellow-400 text-black placeholder:text-black placeholder:p-5 p-1 rounded font-bold'
-              : 'form-control mx-auto w-96 bg-yellow-400 text-black placeholder:text-black placeholder:p-5 p-1 border-2 rounded font-bold search'
+              ? 'form-control mx-auto w-96 bg-yellow-400 text-black placeholder:text-black placeholder:p-5 p-1 rounded font-bold INPLGHT'
+              : 'form-control mx-auto w-96 bg-yellow-400 text-black placeholder:text-black placeholder:p-5 p-1 border-2 rounded font-bold search INPLGHT'
           }
           onChange={handleFilterChange}
         />
@@ -277,6 +251,7 @@ export function CryptoApi() {
                   <FontAwesomeIcon
                     key={index}
                     icon={farStar}
+                    onClick={startClckedFav}
                     className="m-2 starSize hover:cursor-pointer"
                   />
                 </div>
@@ -435,8 +410,8 @@ export function CryptoApi() {
             <tr className="flex justify-around m-2 capitalize mx-auto">
               {/* {filteredData.length === 0 &&} */}
 
-              <th>#</th>
-              <th className="ST text-2xl text-center first-letter:text-yellow-500">
+              <th className="Blvk">#</th>
+              <th className="ST text-2xl text-center first-letter:text-yellow-500 BLFL">
                 coin
               </th>
               <hr className="invisible" />
@@ -460,12 +435,14 @@ export function CryptoApi() {
                   >
                     <FontAwesomeIcon
                       key={index}
-                      icon={farStar}
+                      icon={isFilled ? faStarSolid : faStarRegular}
+                      onClick={startClckedFav}
                       className="mt-2 starSize hover:cursor-pointer"
+                      color={isFilled ? 'yellow' : 'white'}
                     />
                   </span>
                   <div className="flex items-center">
-                    <p className="">{`${cryptoTBLEData.market_cap_rank})`}</p>
+                    <p className="Blvk">{`${cryptoTBLEData.market_cap_rank})`}</p>
                     <div className="block">
                       <img
                         src={cryptoTBLEData.image}
@@ -481,7 +458,7 @@ export function CryptoApi() {
                     {formatPrice(cryptoTBLEData.current_price)}{' '}
                   </p>
                   <td className="ST">
-                    {(cryptoTBLEData.price_change_24h / 2) * 100 >=
+                    {cryptoTBLEData.price_change_24h * 100 >
                       cryptoTBLEData.market_cap_change_percentage_24h ||
                     (cryptoTBLEData.price_change_24h / 2) * 100 <=
                       cryptoTBLEData.market_cap_change_percentage_24h ? (
@@ -525,7 +502,7 @@ export function CryptoApi() {
                             d="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z"
                           ></path>
                         </svg>
-                        <p className="text-green-400">
+                        <p className="text-red-400">
                           {getFirstTwoDecimalNumbers(
                             cryptoTBLEData.price_change_percentage_24h,
                           )}
@@ -535,7 +512,7 @@ export function CryptoApi() {
                     )}
                   </td>
                   <td className="ST">
-                    {cryptoTBLEData.price_change_24h - 7 / 2 <=
+                    {(cryptoTBLEData.price_change_24h * 7) / 2 <=
                     cryptoTBLEData.market_cap_change_percentage_24h ? (
                       <>
                         <p className="text-red-400">
