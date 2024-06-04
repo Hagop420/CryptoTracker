@@ -224,7 +224,7 @@ export function CryptoApi() {
   }
 
   useEffect(() => {
-    window.addEventListener('load', warning_animation_functionallity)
+    window.addEventListener('scroll', warning_animation_functionallity)
   })
 
   useEffect(() => {
