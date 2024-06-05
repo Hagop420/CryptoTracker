@@ -3059,7 +3059,8 @@ export function CryptoApi() {
   const [isFilled, setIsFilled] = useState(false)
 
   // star id only ID'S
-  const [selectedStars, setSelectedStars] = useState<string[]>([]) // Store the IDs of the selected stars
+
+  const [selectedRank, setSelectedRank] = useState<number[] | null>(null)
 
   // FUNCTION FOR FORMATTING NUMBERS
 
@@ -3179,32 +3180,40 @@ export function CryptoApi() {
     }
   }
 
-  function startClckedFav(id: string) {
+  function startClckedFav(rank: number) {
     // changing the star color to filled when clicked
     setIsFilled(!isFilled)
-    // setSelectedStars((prevSelectedStars) => {
-    // // Check if the star is already selected
-    // if (prevSelectedStars.includes(id)) {
-    //   // If it is, remove it from the selected stars array
-    //   return prevSelectedStars.filter((starId) => starId !== id)
-    // } else {
-    //   // If it's not, add it to the selected stars array
-    //   return [...selectedStars, id]
-    // }
     // Check if the clicked star is already selected
-
-    setSelectedStars((prevSelectedStars) => {
-      if (prevSelectedStars.includes(id)) {
-        console.log(9)
-        return prevSelectedStars.filter((starId) => starId !== id)
+    setSelectedRank((prevRanks) => {
+      if (prevRanks === null) {
+        return [rank]
+      }
+      // If the rank is already selected, remove it from the array
+      if (prevRanks.includes(rank)) {
+        return prevRanks.filter((selectedRank) => selectedRank !== rank)
       } else {
-        return [id]
+        // If the rank is not selected, add it to the array
+        return [...prevRanks, rank]
       }
     })
-    // return selectedStars
-
-    console.log(selectedStars)
   }
+  const tooltipRefs = useRef<(HTMLDivElement | null)[]>(
+    Array(initialData.length).fill(null),
+  )
+
+  useEffect(() => {
+    // Hide tooltips when ranks are selected
+    tooltipRefs.current.forEach((tooltipRef, index) => {
+      if (tooltipRef?.classList) {
+        // Check if tooltipRef exists and has classList property
+        if (selectedRank?.includes(index + 1)) {
+          tooltipRef.classList.remove('hidden')
+        } else {
+          tooltipRef.classList.add('hidden')
+        }
+      }
+    })
+  }, [selectedRank])
 
   return (
     <>
@@ -3247,18 +3256,25 @@ export function CryptoApi() {
                   className={`bg-transparent text-color border-0 ST`}
                   ref={buttonRefs.current[index]}
                 >
-                  {/* <FontAwesomeIcon
-                    key={index}
-                    icon={farStar}
-                    onClick={() => startClckedFav(index)}
-                    className="m-2 starSize hover:cursor-pointer"
-                  /> */}
                   <FontAwesomeIcon
                     key={index}
-                    icon={isFilled ? faStarSolid : faStarRegular}
-                    onClick={() => startClckedFav(cryptos.id)} // Use cryptoTBLEData.id directly
+                    icon={
+                      selectedRank &&
+                      selectedRank.includes(cryptos.market_cap_rank)
+                        ? faStarSolid
+                        : faStarRegular
+                    }
+                    onClick={() => {
+                      const rank = cryptos.market_cap_rank
+                      startClckedFav(rank)
+                    }}
                     className="mt-2 starSize hover:cursor-pointer"
-                    color={isFilled ? 'yellow' : 'white'}
+                    color={
+                      selectedRank &&
+                      selectedRank.includes(cryptos.market_cap_rank)
+                        ? 'yellow'
+                        : 'black'
+                    }
                   />
                 </div>
 
@@ -3430,7 +3446,7 @@ export function CryptoApi() {
           </div>
         )}
         {filteredData.length !== 0 && <hr className="border-t-4 mb-2" />}
-        {initialData.map((cryptoTBLEData, index) => (
+        {filteredData.map((cryptoTBLEData, index) => (
           <>
             <tr key={index}>
               <div>
@@ -3439,19 +3455,25 @@ export function CryptoApi() {
                     className={`bg-transparent text-color ST`}
                     ref={buttonRefs.current[index]}
                   >
-                    {/* <FontAwesomeIcon
-                      key={index}
-                      icon={isFilled ? faStarSolid : faStarRegular}
-                      onClick={() => startClckedFav(Number(cryptoTBLEData.id))}
-                      className="mt-2 starSize hover:cursor-pointer"
-                      color={isFilled ? 'yellow' : 'white'}
-                    /> */}
                     <FontAwesomeIcon
                       key={index}
-                      icon={isFilled ? faStarSolid : faStarRegular}
-                      onClick={() => startClckedFav(cryptoTBLEData.id)} // Use cryptoTBLEData.id directly
+                      icon={
+                        selectedRank &&
+                        selectedRank.includes(cryptoTBLEData.market_cap_rank)
+                          ? faStarSolid
+                          : faStarRegular
+                      }
+                      onClick={() => {
+                        const rank = cryptoTBLEData.market_cap_rank
+                        startClckedFav(rank)
+                      }}
                       className="mt-2 starSize hover:cursor-pointer"
-                      color={isFilled ? 'yellow' : 'white'}
+                      color={
+                        selectedRank &&
+                        selectedRank.includes(cryptoTBLEData.market_cap_rank)
+                          ? 'yellow'
+                          : 'black'
+                      }
                     />
                   </span>
                   <div className="flex items-center">
