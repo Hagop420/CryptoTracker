@@ -57,6 +57,9 @@
 [data-theme='light'] .BC {
   border-color: #000;
 }
+[data-theme='light'] .HGT_Img {
+  height: 450px;
+}
 
 [data-theme='light'] .starClrLght:hover {
   color: red;

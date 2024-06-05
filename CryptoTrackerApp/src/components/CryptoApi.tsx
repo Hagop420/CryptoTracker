@@ -3300,9 +3300,9 @@ export function CryptoApi() {
               </p>
               <div className="flex flex-col items-center p-4">
                 <h3 className="ST">24h:</h3>
-                {(cryptos.price_change_24h / 2) * 100 >=
+                {(cryptos.price_change_24h / 1440) * 100 <
                   cryptos.market_cap_change_percentage_24h ||
-                (cryptos.price_change_24h / 2) * 100 <=
+                cryptos.price_change_24h * 100 <=
                   cryptos.market_cap_change_percentage_24h ? (
                   <>
                     <p className="text-green-400">
@@ -3344,7 +3344,7 @@ export function CryptoApi() {
                         d="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z"
                       ></path>
                     </svg>
-                    <p className="text-green-400">
+                    <p className="text-red-400">
                       {getFirstTwoDecimalNumbers(
                         cryptos.price_change_percentage_24h,
                       )}
@@ -3493,9 +3493,9 @@ export function CryptoApi() {
                     {formatPrice(cryptoTBLEData.current_price)}{' '}
                   </p>
                   <td className="ST">
-                    {cryptoTBLEData.price_change_24h * 100 >
+                    {(cryptoTBLEData.price_change_24h / 1440) * 100 <
                       cryptoTBLEData.market_cap_change_percentage_24h ||
-                    (cryptoTBLEData.price_change_24h / 2) * 100 <=
+                    cryptoTBLEData.price_change_24h * 100 <=
                       cryptoTBLEData.market_cap_change_percentage_24h ? (
                       <>
                         <p className="text-green-400">
@@ -3615,13 +3615,13 @@ export function CryptoApi() {
               <div className="text-2xl">
                 <img
                   src={noBtcBL}
-                  className={regexInp.test(filter) ? 'hidden' : 'btcBL'}
+                  className={regexInp.test(filter) ? 'hidden' : 'btcBL HGT_Img'}
                   alt="NO CURRENCY."
                 />
-                <h2 className={regexInp.test(filter) ? 'hidden' : 'm-3'}>
+                <h2 className={regexInp.test(filter) ? 'hidden' : 'm-3 Blvk'}>
                   "{filter}"
                 </h2>
-                <p className={regexInp.test(filter) ? 'hidden' : 'm-3'}>
+                <p className={regexInp.test(filter) ? 'hidden' : 'm-3 Blvk'}>
                   Currency not found
                 </p>
               </div>

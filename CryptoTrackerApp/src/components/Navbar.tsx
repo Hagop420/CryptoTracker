@@ -23,7 +23,7 @@ export function LightAndDarkMode() {
   }
 
   return (
-    <nav className="navbar absolute top-0 left-0 bg-gray-300 w-full flex justify-between xl:justify-around">
+    <nav className="navbar absolute top-0 left-0 bg-gray-300 w-full flex justify-between xl:justify-around sm:flex ">
       <div className="flex p-2">
         <span className="text-black -rotate-1">Powered by</span>
         <img src={CGECKO} className="h-10 rotate-3" alt="CoinGecko Inc." />
