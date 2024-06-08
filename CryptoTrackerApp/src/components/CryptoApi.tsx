@@ -3054,9 +3054,14 @@ export function CryptoApi() {
     item.id.toLowerCase().includes(filter.toLowerCase()),
   )
 
+  // theme state
+  const [theme, setTheme] = useState(localStorage.getItem('theme') ?? 'forest')
+
   // star clr state
 
   const [isFilled, setIsFilled] = useState(false)
+
+  const [clr, setClr] = useState<string>()
 
   // star id only ID'S
 
@@ -3215,6 +3220,14 @@ export function CryptoApi() {
     })
   }, [selectedRank])
 
+  function clrThemes() {
+    if (theme === 'forest') {
+      setClr('yellow')
+    } else {
+      setClr('blue')
+    }
+  }
+
   return (
     <>
       <div>
@@ -3255,28 +3268,31 @@ export function CryptoApi() {
                 <div
                   className={`bg-transparent text-color border-0 ST`}
                   ref={buttonRefs.current[index]}
-                >
-                  <FontAwesomeIcon
-                    key={index}
-                    icon={
-                      selectedRank &&
-                      selectedRank.includes(cryptos.market_cap_rank)
-                        ? faStarSolid
-                        : faStarRegular
-                    }
-                    onClick={() => {
-                      const rank = cryptos.market_cap_rank
-                      startClckedFav(rank)
-                    }}
-                    className="mt-2 starSize hover:cursor-pointer"
-                    color={
-                      selectedRank &&
-                      selectedRank.includes(cryptos.market_cap_rank)
-                        ? 'yellow'
-                        : 'black'
-                    }
-                  />
-                </div>
+                ></div>
+
+                <FontAwesomeIcon
+                  key={index}
+                  icon={
+                    selectedRank &&
+                    selectedRank.includes(cryptos.market_cap_rank)
+                      ? faStarSolid
+                      : faStarRegular
+                  }
+                  onClick={() => {
+                    const rank = cryptos.market_cap_rank
+                    startClckedFav(rank)
+                  }}
+                  className="mt-2 starSize hover:cursor-pointer"
+                  color={
+                    selectedRank &&
+                    selectedRank.includes(cryptos.market_cap_rank) &&
+                    theme === 'forest'
+                      ? 'black'
+                      : theme !== 'lofi'
+                      ? 'black'
+                      : 'yellow'
+                  }
+                />
 
                 <p className="capitalize first-letter:text-yellow-500 first-letter:font-bold CN">
                   coin:

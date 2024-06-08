@@ -37,8 +37,14 @@
 [data-theme='light'] .ST {
   color: #000;
 }
+[data-theme='forest'] .starSize {
+  color: white;
+}
 [data-theme='forest'] img.btcBL {
   height: 450px;
+}
+[data-theme='forest'] .WH {
+  color: white;
 }
 [data-theme='light'] .CN {
   color: #000;

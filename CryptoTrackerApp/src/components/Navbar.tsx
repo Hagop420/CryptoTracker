@@ -1,9 +1,13 @@
 import { useState, useEffect } from 'react'
 import CGECKO from '../assets/img/CGeckoLG.png'
 import MtBTC from '../assets/img/MtB.png'
+import CKOdrk from '../assets/img/cgko.png'
+import $$$$$$$$$$$$$$$$$$$$$$$$$$$$$ from '../assets/img/$.png'
 
 export function LightAndDarkMode() {
   const [theme, setTheme] = useState(localStorage.getItem('theme') ?? 'lofi')
+
+  console.log(theme)
 
   // THEME CURRENT STATE
 
@@ -23,14 +27,34 @@ export function LightAndDarkMode() {
   }
 
   return (
-    <nav className="navbar absolute top-0 left-0 bg-gray-300 w-full flex justify-between xl:justify-around sm:flex ">
-      <div className="flex p-2">
-        <span className="text-black -rotate-1">Powered by</span>
-        <img src={CGECKO} className="h-10 rotate-3" alt="CoinGecko Inc." />
-        <img src={MtBTC} className="h-10 animate-spin" alt="CoinGecko Inc." />
+    <nav className="navbar items-center mx-auto justify-center relative bottom-0 flex xl:justify-around xl:flex xl:">
+      <div className="flex">
+        <span className="text-black -rotate-1 WH">Powered by</span>
+        {theme === 'forest' ? (
+          <img src={CGECKO} className="h-10 rotate-3" alt="CoinGecko Inc." />
+        ) : (
+          <img
+            src={CKOdrk}
+            className="h-10 rotate-3 object-"
+            alt="CoinGecko Inc."
+          />
+        )}
+        {theme === 'forest' ? (
+          <img
+            src={$$$$$$$$$$$$$$$$$$$$$$$$$$$$$}
+            className="h-10 animate-pulse md:h-12 lg:h-16 xl:h-24"
+            alt="CoinGecko Inc."
+          />
+        ) : (
+          <img
+            src={MtBTC}
+            className="h-16 animate-spin md:h-12 lg:h-16 xl:h-16"
+            alt="CoinGecko Inc."
+          />
+        )}
       </div>
       <div className="flex container justify-end">
-        <h2 className="nestTTl text-black font-semibold">CryptoNest</h2>
+        <h2 className="nestTTl text-black WH font-bold">CryptoNest</h2>
       </div>
       {/* <div className="flex text-center items-center">
         <label className="flex cursor-pointer gap-2">
@@ -82,7 +106,7 @@ export function LightAndDarkMode() {
 
           {/* sun icon */}
           <svg
-            className="swap-on fill-current w-10 h-10 text-black"
+            className="swap-on fill-current w-10 h-10 text-black WH"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
           >
