@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, forwardRef, ChangeEvent } from 'react'
 import { LightAndDarkMode } from './Navbar'
 // import { SearchableList } from './SearchableFilter'
 import tippy, { Content } from 'tippy.js'
+import { Link, useNavigate } from 'react-router-dom'
 import 'tippy.js/dist/tippy.css' // Import Tippy.js CSS
 import 'animate.css'
 import 'tippy.js/themes/translucent.css'
@@ -18,6 +19,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar as faStarRegular } from '@fortawesome/free-regular-svg-icons'
 import { faStar as faStarSolid } from '@fortawesome/free-solid-svg-icons'
 import { US_currency } from './CryptoProvider'
+import { useCurrency } from '../../lib/useCurrency'
 
 // API Key
 
@@ -61,7 +63,13 @@ import { US_currency } from './CryptoProvider'
 export function CryptoApi() {
   //   type validation for tsx
 
+  const navigate = useNavigate()
+
   const [crytoMappedApi, setCrytoMappedApi] = useState<US_currency[]>([])
+
+  const [cryptoIndividual, setCryptoIndividual] = useState<US_currency>()
+
+  const { setItemFavoriteCrypto, setStoredFavorite } = useCurrency()
 
   // filter state
 
@@ -100,6 +108,13 @@ export function CryptoApi() {
     }
 
     return `$${formattedPrice}`
+  }
+
+  // navigate
+  function stored() {
+    if (cryptoIndividual === undefined) return
+    setItemFavoriteCrypto(cryptoIndividual)
+    navigate('/favorite_currencies')
   }
 
   function getFirstTwoDecimalNumbers(num: number): number {
@@ -262,7 +277,7 @@ export function CryptoApi() {
 
       <div className="m-7">
         {filter.length === 0 && isFilled === true ? (
-          <div className="flex justify-center">
+          <div className="flex justify-center" onClick={stored}>
             <button>View Favorite cryptos</button>
           </div>
         ) : (
