@@ -53,9 +53,7 @@ export function LightAndDarkMode() {
           />
         )}
       </div>
-      <div className="flex container justify-end">
-        <h2 className="nestTTl text-black WH font-bold">CryptoNest</h2>
-      </div>
+      <div className="flex container justify-end"></div>
       {/* <div className="flex text-center items-center">
         <label className="flex cursor-pointer gap-2">
           <svg

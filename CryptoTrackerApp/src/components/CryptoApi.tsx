@@ -3243,6 +3243,8 @@ export function CryptoApi() {
         </p>
       </div>
       {/* filter input */}
+      <h2 className="nestTTl text-black WH font-bold">CryptoNest</h2>
+
       <div className="m-7">
         <input
           type="text"
