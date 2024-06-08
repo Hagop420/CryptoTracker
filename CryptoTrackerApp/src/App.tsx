@@ -45,7 +45,7 @@ function App() {
   // context function
   const contextValueCryptoCurrency: cryptocurrencyUsContext = {
     currencyItem: cryptoItems,
-    setItemFavoriteCryptos: setItemFavoriteCryptos,
+    setItemFavoriteCrypto: setItemFavoriteCryptos,
     setStoredFavorite: storedContents,
 
   }

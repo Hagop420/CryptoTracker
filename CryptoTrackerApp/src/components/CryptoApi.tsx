@@ -112,8 +112,9 @@ export function CryptoApi() {
 
   // navigate
   function stored() {
-    if (cryptoIndividual === undefined) return
-    setItemFavoriteCrypto(cryptoIndividual)
+    // if (imgs === undefined) return
+
+    // setItemFavoriteCrypto()
     navigate('/favorite_currencies')
   }
 
@@ -277,8 +278,8 @@ export function CryptoApi() {
 
       <div className="m-7">
         {filter.length === 0 && isFilled === true ? (
-          <div className="flex justify-center" onClick={stored}>
-            <button>View Favorite cryptos</button>
+          <div className="flex justify-center">
+            <button onClick={stored}>View Favorite cryptos</button>
           </div>
         ) : (
           ''

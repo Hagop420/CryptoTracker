@@ -16,6 +16,10 @@ export function FavoriteCrypto({
     setStoredFavorite()
   }, [])
 
+  if (currency.length === 0) {
+    return <h1>gay</h1>
+  }
+
   return (
     <ul className="list-none flex flex-col md:grid md:grid-cols-3 lg:grid lg:grid-cols-3 sm:grid sm:grid-cols-2">
       {currency.map((cryptoCurr, index) => (
