@@ -111,10 +111,9 @@ export function CryptoApi() {
   }
 
   // navigate
-  function stored() {
-    // if (imgs === undefined) return
-
-    // setItemFavoriteCrypto()
+  function stored(currency: US_currency) {
+    // if (currency === undefined) return
+    setItemFavoriteCrypto(currency)
     navigate('/favorite_currencies')
   }
 

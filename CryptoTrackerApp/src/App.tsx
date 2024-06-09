@@ -7,9 +7,6 @@ import { Route , Routes} from 'react-router-dom'
 
 function App() {
   const [cryptoItems, setCryptoItems] = useState<US_currency[]>([])
-
-   // state for Item object - only 1
- const [imageContentStored, setImageContentStored] = useState<US_currency>()
   
 
   // Creating the LS function
