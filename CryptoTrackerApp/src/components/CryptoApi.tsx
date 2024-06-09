@@ -67,7 +67,9 @@ export function CryptoApi() {
 
   const [crytoMappedApi, setCrytoMappedApi] = useState<US_currency[]>([])
 
-  const [cryptoIndividual, setCryptoIndividual] = useState<US_currency>()
+  const [cryptoIndividual, setCryptoIndividual] = useState<
+    US_currency | undefined
+  >(undefined)
 
   const { setItemFavoriteCrypto, setStoredFavorite } = useCurrency()
 
@@ -113,8 +115,11 @@ export function CryptoApi() {
   // navigate
   function stored(currency: US_currency) {
     // if (currency === undefined) return
-    setItemFavoriteCrypto(currency)
-    navigate('/favorite_currencies')
+    // setItemFavoriteCrypto(currency)
+    // navigate('/favorite_currencies')
+    if (!currency) return
+    setItemFavoriteCrypto(currency) // Assuming setItemFavoriteCrypto is defined elsewhere
+    navigate('/favorite_currencies', { state: { currency } })
   }
 
   function getFirstTwoDecimalNumbers(num: number): number {
@@ -278,7 +283,11 @@ export function CryptoApi() {
       <div className="m-7">
         {filter.length === 0 && isFilled === true ? (
           <div className="flex justify-center">
-            <button onClick={stored}>View Favorite cryptos</button>
+            <button
+              onClick={() => cryptoIndividual && stored(cryptoIndividual)}
+            >
+              View Favorite cryptos
+            </button>
           </div>
         ) : (
           ''

@@ -1,9 +1,9 @@
 import { createContext } from 'react'
 
 export type US_currency = {
-  length: number
+  length?: number
   favorite?: boolean
-  filter(arg0: (quote: US_currency) => boolean): US_currency[]
+  filter?(arg0: (quote: US_currency) => boolean): US_currency[]
   id: string
   symbol: string
   name: string
@@ -36,12 +36,14 @@ export type cryptocurrencyUsContext = {
   currencyItem: US_currency[]
   setItemFavoriteCrypto: (cryptoItem: US_currency) => void
   setStoredFavorite: () => void
+  // imageContentStored: US_currency | undefined
 }
 
 export const cryptoContext = createContext<cryptocurrencyUsContext>({
   currencyItem: [],
   setItemFavoriteCrypto: () => undefined,
   setStoredFavorite: () => undefined,
+  // imageContentStored:
 })
 
 export const CryptoProvider = cryptoContext.Provider
