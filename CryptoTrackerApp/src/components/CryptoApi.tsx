@@ -91,7 +91,7 @@ export function CryptoApi() {
 
   // star clr state
 
-  const [isFilled, setIsFilled] = useState(false)
+  const [isFilled, setIsFilled] = useState<boolean>()
 
   // star id only ID'S
 
@@ -113,13 +113,10 @@ export function CryptoApi() {
   }
 
   // navigate
-  function stored(currency: US_currency) {
-    // if (currency === undefined) return
-    // setItemFavoriteCrypto(currency)
-    // navigate('/favorite_currencies')
-    if (!currency) return
-    setItemFavoriteCrypto(currency) // Assuming setItemFavoriteCrypto is defined elsewhere
-    navigate('/favorite_currencies', { state: { currency } })
+  function stored() {
+    if (cryptoIndividual === undefined) return
+    setItemFavoriteCrypto(cryptoIndividual)
+    navigate('/favorite_currencies')
   }
 
   function getFirstTwoDecimalNumbers(num: number): number {
@@ -141,11 +138,12 @@ export function CryptoApi() {
 
         const data = await response.json()
 
-        console.log(data)
-
-        setCrytoMappedApi(data)
-
         // console.log(data)
+
+        // setCryptoIndividual(data)
+        setCryptoIndividual(data)
+
+        console.log(cryptoIndividual)
       } catch (err) {
         console.log(err)
       }
@@ -229,7 +227,8 @@ export function CryptoApi() {
 
   function startClckedFav(rank: number) {
     // changing the star color to filled when clicked
-    setIsFilled(!isFilled)
+    setSelectedRank(selectedRank)
+    console.log(selectedRank)
     // Check if the clicked star is already selected
     setSelectedRank((prevRanks) => {
       if (prevRanks === null) {
@@ -240,28 +239,29 @@ export function CryptoApi() {
         return prevRanks.filter((selectedRank) => selectedRank !== rank)
       } else {
         // If the rank is not selected, add it to the array
+        // console.log([...prevRanks, rank])
         return [...prevRanks, rank]
       }
     })
   }
-  const tooltipRefs = useRef<(HTMLDivElement | null)[]>(
-    Array(crytoMappedApi.length).fill(null),
-  )
+  // const tooltipRefs = useRef<(HTMLDivElement | null)[]>(
+  //   Array(crytoMappedApi.length).fill(null),
+  // )
 
-  useEffect(() => {
-    // Hide tooltips when ranks are selected
-    tooltipRefs.current.forEach((tooltipRef, index) => {
-      if (tooltipRef?.classList) {
-        // Check if tooltipRef exists and has classList property
-        if (selectedRank?.includes(index + 1)) {
-          tooltipRef.classList.remove('hidden')
-        } else {
-          tooltipRef.classList.add('hidden')
-        }
-      }
-    })
-  }, [selectedRank])
-  console.log(isFilled)
+  // useEffect(() => {
+  //   // Hide tooltips when ranks are selected
+  //   tooltipRefs.current.forEach((tooltipRef, index) => {
+  //     if (tooltipRef?.classList) {
+  //       // Check if tooltipRef exists and has classList property
+  //       if (selectedRank?.includes(index + 1)) {
+  //         tooltipRef.classList.remove('hidden')
+  //       } else {
+  //         tooltipRef.classList.add('hidden')
+  //       }
+  //     }
+  //   })
+  // }, [selectedRank])
+  // console.log(isFilled)
 
   return (
     <>
@@ -281,13 +281,9 @@ export function CryptoApi() {
       <h2 className="nestTTl text-black WH font-bold">CryptoNest</h2>
 
       <div className="m-7">
-        {filter.length === 0 && isFilled === true ? (
+        {selectedRank?.length ? (
           <div className="flex justify-center">
-            <button
-              onClick={() => cryptoIndividual && stored(cryptoIndividual)}
-            >
-              View Favorite cryptos
-            </button>
+            <button onClick={stored}>View Favorite cryptos</button>
           </div>
         ) : (
           ''
