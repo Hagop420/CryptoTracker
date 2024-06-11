@@ -25,6 +25,7 @@ export function FavoriteCrypto({
       {currency.map((cryptoCurr, index) => (
         <li key={index}>
           <img src={cryptoCurr.image} alt="x" />
+          <h2>{cryptoCurr.symbol}</h2>
         </li>
       ))}
     </ul>

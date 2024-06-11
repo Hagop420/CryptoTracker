@@ -67,9 +67,7 @@ export function CryptoApi() {
 
   const [crytoMappedApi, setCrytoMappedApi] = useState<US_currency[]>([])
 
-  const [cryptoIndividual, setCryptoIndividual] = useState<
-    US_currency | undefined
-  >(undefined)
+  const [cryptoIndividual, setCryptoIndividual] = useState<US_currency>()
 
   const { setItemFavoriteCrypto, setStoredFavorite } = useCurrency()
 
@@ -140,10 +138,8 @@ export function CryptoApi() {
 
         // console.log(data)
 
+        setCrytoMappedApi(data)
         // setCryptoIndividual(data)
-        setCryptoIndividual(data)
-
-        console.log(cryptoIndividual)
       } catch (err) {
         console.log(err)
       }
@@ -225,43 +221,47 @@ export function CryptoApi() {
     }
   }
 
+  // function startClckedFav(rank: number) {
+  //   // changing the star color to filled when clicked
+  //   // Check if the clicked star is already selected
+  //   setSelectedRank((prevRanks) => {
+  //     if (prevRanks === null) {
+  //       return [rank]
+  //     }
+  //     // If the rank is already selected, remove it from the array
+  //     if (prevRanks.includes(rank)) {
+  //       setSelectedRank(
+  //         prevRanks.filter((selectedRank) => selectedRank !== rank),
+  //       )
+  //       console.log(prevRanks.filter((selectedRank) => selectedRank !== rank))
+  //       return prevRanks.filter((selectedRank) => selectedRank !== rank)
+  //     } else {
+  //       setSelectedRank([...prevRanks, rank])
+  //       return [...prevRanks, rank]
+  //     }
+  //   })
+  // }
+
   function startClckedFav(rank: number) {
-    // changing the star color to filled when clicked
-    setSelectedRank(selectedRank)
-    console.log(selectedRank)
-    // Check if the clicked star is already selected
+    // Use functional update to ensure the state update is based on the previous state
     setSelectedRank((prevRanks) => {
       if (prevRanks === null) {
         return [rank]
       }
       // If the rank is already selected, remove it from the array
       if (prevRanks.includes(rank)) {
-        return prevRanks.filter((selectedRank) => selectedRank !== rank)
+        const updatedRanks = prevRanks.filter(
+          (selectedRank) => selectedRank !== rank,
+        )
+        console.log(updatedRanks) // This will log the updated ranks correctly
+        return updatedRanks
       } else {
-        // If the rank is not selected, add it to the array
-        // console.log([...prevRanks, rank])
-        return [...prevRanks, rank]
+        const updatedRanks = [...prevRanks, rank]
+        console.log(updatedRanks) // This will log the updated ranks correctly
+        return updatedRanks
       }
     })
   }
-  // const tooltipRefs = useRef<(HTMLDivElement | null)[]>(
-  //   Array(crytoMappedApi.length).fill(null),
-  // )
-
-  // useEffect(() => {
-  //   // Hide tooltips when ranks are selected
-  //   tooltipRefs.current.forEach((tooltipRef, index) => {
-  //     if (tooltipRef?.classList) {
-  //       // Check if tooltipRef exists and has classList property
-  //       if (selectedRank?.includes(index + 1)) {
-  //         tooltipRef.classList.remove('hidden')
-  //       } else {
-  //         tooltipRef.classList.add('hidden')
-  //       }
-  //     }
-  //   })
-  // }, [selectedRank])
-  // console.log(isFilled)
 
   return (
     <>
@@ -323,8 +323,8 @@ export function CryptoApi() {
                       : faStarRegular
                   }
                   onClick={() => {
-                    const rank = cryptos.market_cap_rank
-                    startClckedFav(rank)
+                    // const rank = cryptos.market_cap_rank
+                    startClckedFav(+cryptos)
                   }}
                   className="mt-2 starSize hover:cursor-pointer"
                   color={
