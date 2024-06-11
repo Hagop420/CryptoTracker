@@ -65,9 +65,9 @@ export function CryptoApi() {
 
   const navigate = useNavigate()
 
-  const [crytoMappedApi, setCrytoMappedApi] = useState<US_currency[]>([])
+  const [cryptoMappedApi, setCryptoMappedApi] = useState<US_currency[]>([])
 
-  const [cryptoIndividual, setCryptoIndividual] = useState<US_currency>()
+  const [selectedCryptos, setSelectedCryptos] = useState<US_currency[]>([])
 
   const { setItemFavoriteCrypto, setStoredFavorite } = useCurrency()
 
@@ -80,7 +80,7 @@ export function CryptoApi() {
   const [inpReqOk, setInpReqOk] = useState<string>('')
 
   // Filtered data based on the filter state
-  const filteredData = crytoMappedApi.filter((item) =>
+  const filteredData = cryptoMappedApi.filter((item) =>
     item.id.toLowerCase().includes(filter.toLowerCase()),
   )
 
@@ -88,8 +88,6 @@ export function CryptoApi() {
   const [theme, setTheme] = useState(localStorage.getItem('theme') ?? 'forest')
 
   // star clr state
-
-  const [isFilled, setIsFilled] = useState<boolean>()
 
   // star id only ID'S
 
@@ -108,13 +106,6 @@ export function CryptoApi() {
     }
 
     return `$${formattedPrice}`
-  }
-
-  // navigate
-  function stored() {
-    if (cryptoIndividual === undefined) return
-    setItemFavoriteCrypto(cryptoIndividual)
-    navigate('/favorite_currencies')
   }
 
   function getFirstTwoDecimalNumbers(num: number): number {
@@ -138,7 +129,7 @@ export function CryptoApi() {
 
         // console.log(data)
 
-        setCrytoMappedApi(data)
+        setCryptoMappedApi(data)
         // setCryptoIndividual(data)
       } catch (err) {
         console.log(err)
@@ -242,25 +233,54 @@ export function CryptoApi() {
   //   })
   // }
 
-  function startClckedFav(rank: number) {
-    // Use functional update to ensure the state update is based on the previous state
-    setSelectedRank((prevRanks) => {
-      if (prevRanks === null) {
-        return [rank]
-      }
-      // If the rank is already selected, remove it from the array
+  // function startClckedFav(rank: number) {
+  //   // Use functional update to ensure the state update is based on the previous state
+  //   setSelectedRank((prevRanks) => {
+  //     if (prevRanks === null) {
+  //       return [rank]
+  //     }
+  //     // If the rank is already selected, remove it from the array
+  //     if (prevRanks.includes(rank)) {
+  //       const updatedRanks = prevRanks.filter(
+  //         (selectedRank) => selectedRank !== rank,
+  //       )
+  //       console.log(updatedRanks) // This will log the updated ranks correctly
+  //       return updatedRanks
+  //     } else {
+  //       const updatedRanks = [...prevRanks, rank]
+  //       console.log(updatedRanks) // This will log the updated ranks correctly
+  //       return updatedRanks
+  //     }
+  //   })
+  // }
+
+  const startClckedFav = (rank: number) => {
+    setSelectedRanks((prevRanks) => {
       if (prevRanks.includes(rank)) {
         const updatedRanks = prevRanks.filter(
           (selectedRank) => selectedRank !== rank,
         )
-        console.log(updatedRanks) // This will log the updated ranks correctly
+        updateSelectedCryptos(updatedRanks)
         return updatedRanks
       } else {
         const updatedRanks = [...prevRanks, rank]
-        console.log(updatedRanks) // This will log the updated ranks correctly
+        updateSelectedCryptos(updatedRanks)
         return updatedRanks
       }
     })
+  }
+
+  const updateSelectedCryptos = (ranks: number[]) => {
+    const updatedCryptos = cryptoMappedApi.filter((crypto) =>
+      ranks.includes(crypto.rank),
+    )
+    setSelectedCryptos(updatedCryptos)
+  }
+
+  // navigate
+  function stored() {
+    if (selectedCryptos.length === 0) return
+    navigate('/favorite_currencies', { state: { selectedCryptos } })
   }
 
   return (

@@ -4,6 +4,7 @@ export type US_currency = {
   length?: number
   favorite?: boolean
   filter?(arg0: (quote: US_currency) => boolean): US_currency[]
+  rank?: number
   id: string
   symbol: string
   name: string
@@ -43,7 +44,6 @@ export const cryptoContext = createContext<cryptocurrencyUsContext>({
   currencyItem: [],
   setItemFavoriteCrypto: () => undefined,
   setStoredFavorite: () => undefined,
-  // imageContentStored:
 })
 
 export const CryptoProvider = cryptoContext.Provider
