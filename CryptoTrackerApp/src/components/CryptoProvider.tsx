@@ -8,7 +8,7 @@ export type US_currency = {
   id: string
   symbol?: string
   name: string
-  cryptoFav?: US_currency
+  cryptoFav: US_currency
   image: string
   current_price: number
   market_cap: number

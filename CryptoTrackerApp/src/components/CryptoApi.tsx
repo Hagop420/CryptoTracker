@@ -60,14 +60,14 @@ import { useCurrency } from '../../lib/useCurrency'
 //   price_change_percentage_24h_in_currency?: number
 // }
 
-export function CryptoApi({ cryptoFav }: { cryptoFav: US_currency[] }) {
+export function CryptoApi({ cryptoFav }: US_currency) {
   //   type validation for tsx
 
   const navigate = useNavigate()
 
   const [cryptoMappedApi, setCryptoMappedApi] = useState<US_currency[]>([])
 
-  const [selectedCryptos, setSelectedCryptos] = useState<US_currency[]>([])
+  const [selectedCryptos, setSelectedCryptos] = useState<US_currency>()
 
   const { setItemFavoriteCrypto, setStoredFavorite } = useCurrency()
 
@@ -214,34 +214,40 @@ export function CryptoApi({ cryptoFav }: { cryptoFav: US_currency[] }) {
     }
   }
 
-  function startClckedFav(rank: number) {
-    // changing the star color to filled when clicked
-    // Check if the clicked star is already selected
-    setSelectedRank((prevRanks) => {
-      if (prevRanks === null) {
-        return [rank]
-      }
-      // If the rank is already selected, remove it from the array
-      if (prevRanks.includes(rank)) {
-        setSelectedRank(
-          prevRanks.filter((selectedRank) => selectedRank !== rank),
-        )
-        console.log(prevRanks.filter((selectedRank) => selectedRank !== rank))
-        return prevRanks.filter((selectedRank) => selectedRank !== rank)
-      } else {
-        setSelectedRank([...prevRanks, rank])
-        return [...prevRanks, rank]
-      }
-    })
-  }
-  const index = 0
+  // function startClckedFav(rank: number) {
+  //   // changing the star color to filled when clicked
+  //   // Check if the clicked star is already selected
+  //   setSelectedRank((prevRanks) => {
+  //     if (prevRanks === null) {
+  //       return [rank]
+  //     }
+  //     console.log()
+  //     // If the rank is already selected, remove it from the array
+  //     if (prevRanks.includes(rank)) {
+  //       // setSelectedRank(
+  //       //   prevRanks.filter((selectedRank) => selectedRank !== rank),
+  //       // )
+  //       console.log(prevRanks.filter((selectedRank) => selectedRank !== rank))
+  //       return prevRanks.filter((selectedRank) => selectedRank !== rank)
+  //     } else {
+  //       return [...prevRanks, rank]
+  //     }
+  //   })
+  // }
   // navigate
-  function stored() {
-    //  setItemFavoriteCrypto is defined elsewhere
-    const obj = cryptoFav
 
-    console.log('Selected cryptocurrency:', obj[index].symbol)
-    // navigate('/favorite_currencies') // Navigate to favorite_currencies page
+  function startClckedFav(rank: number) {
+    // Retrieve the object corresponding to the clicked rank from your API data
+    const clickedObject = cryptoMappedApi.find((object) => object.rank === rank)
+
+    // Now you have the clicked object, you can perform any actions with it
+    console.log('Clicked object:', clickedObject)
+
+    // Implement other actions such as updating state or navigating
+  }
+
+  function stored(index: number) {
+    setItemFavoriteCrypto(cryptoMappedApi[index])
   }
 
   return (
@@ -265,7 +271,6 @@ export function CryptoApi({ cryptoFav }: { cryptoFav: US_currency[] }) {
         {selectedRank?.length ? (
           <div className="flex justify-center">
             <button
-              onClick={stored}
               className={`bg-red-500 transition-transform text-black ${
                 !isTranslated ? 'translated' : ''
               }`}
@@ -511,10 +516,7 @@ export function CryptoApi({ cryptoFav }: { cryptoFav: US_currency[] }) {
                           ? faStarSolid
                           : faStarRegular
                       }
-                      onClick={() => {
-                        const rank = cryptoTBLEData.market_cap_rank
-                        startClckedFav(rank)
-                      }}
+                      onClick={() => startClckedFav(cryptoTBLEData)}
                       className="mt-2 starSize hover:cursor-pointer"
                       color={
                         selectedRank &&
