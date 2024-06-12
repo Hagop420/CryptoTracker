@@ -67,7 +67,7 @@ export function CryptoApi({ cryptoFav }: US_currency) {
 
   const [cryptoMappedApi, setCryptoMappedApi] = useState<US_currency[]>([])
 
-  const [selectedCryptos, setSelectedCryptos] = useState<US_currency>()
+  const [selectedCryptos, setSelectedCryptos] = useState<US_currency[]>([])
 
   const { setItemFavoriteCrypto, setStoredFavorite } = useCurrency()
 
@@ -93,7 +93,7 @@ export function CryptoApi({ cryptoFav }: US_currency) {
 
   // star id only ID'S
 
-  const [selectedRank, setSelectedRank] = useState<number[] | null>(null)
+  const [selectedRank, setSelectedRank] = useState<number[]>([])
 
   // FUNCTION FOR FORMATTING NUMBERS
 
@@ -234,21 +234,75 @@ export function CryptoApi({ cryptoFav }: US_currency) {
   //     }
   //   })
   // }
-  // navigate
 
-  function startClckedFav(rank: number) {
-    // Retrieve the object corresponding to the clicked rank from your API data
-    const clickedObject = cryptoMappedApi.find((object) => object.rank === rank)
-
-    // Now you have the clicked object, you can perform any actions with it
-    console.log('Clicked object:', clickedObject)
-
-    // Implement other actions such as updating state or navigating
+  const startClckedFav = (rank: number) => {
+    setSelectedRank((prevRanks) => {
+      let updatedRanks
+      // if(prevRanks === null) return
+      if (prevRanks.includes(rank)) {
+        updatedRanks = prevRanks.filter((selectedRank) => selectedRank !== rank)
+      } else {
+        updatedRanks = [...prevRanks, rank]
+      }
+      updateSelectedCryptos(updatedRanks)
+      return updatedRanks
+    })
   }
 
-  function stored(index: number) {
-    setItemFavoriteCrypto(cryptoMappedApi[index])
+  const updateSelectedCryptos = (ranks: number[]) => {
+    const updatedCryptos = cryptoMappedApi.filter((crypto) =>
+      ranks.includes(crypto.market_cap_rank),
+    )
+    setSelectedCryptos(updatedCryptos)
   }
+
+  // const stored = (crypto: US_currency) => {
+  //   let favorites = JSON.parse(localStorage.getItem('Crypto_Information') || '{}',)
+  //   if (favorites.some((fav: US_currency) => fav.id === crypto.id)) {
+  //     // Remove from favorites
+  //     favorites = favorites.filter((fav: US_currency) => fav.id !== crypto.id)
+  //   } else {
+  //     // Add to favorites
+  //     favorites.push(crypto)
+  //   }
+  //   setItemFavoriteCrypto(favorites)
+  //   console.log(favorites)
+  //   console.log('Updated favorites:', favorites)
+  // }
+
+  const stored = (crypto: US_currency) => {
+    let favorites = JSON.parse(
+      localStorage.getItem('Crypto_Information') || '[]',
+    )
+    if (favorites.some((fav: US_currency) => fav.id === crypto.id)) {
+      // Remove from favorites
+      favorites = favorites.filter((fav: US_currency) => fav.id !== crypto.id)
+    } else {
+      // Add to favorites
+      favorites.push(crypto)
+    }
+    localStorage.setItem('Crypto_Information', JSON.stringify(favorites))
+    console.log('Updated favorites:', favorites)
+  }
+
+  const viewFavorites = () => {
+    if (selectedCryptos.length === 0) return
+    navigate('/favorite_currencies', { state: { selectedCryptos } })
+  }
+
+  const viewfavoritesPg = () => {
+    navigate('/favorite_currencies')
+  }
+
+  //  handler for LS
+  useEffect(() => {
+    const favorites = JSON.parse(
+      localStorage.getItem('Crypto_Information') || '[]',
+    )
+    const ranks = favorites.map((crypto: US_currency) => crypto.market_cap_rank)
+    setSelectedRank(ranks)
+    setSelectedCryptos(favorites)
+  }, [])
 
   return (
     <>
@@ -271,6 +325,7 @@ export function CryptoApi({ cryptoFav }: US_currency) {
         {selectedRank?.length ? (
           <div className="flex justify-center">
             <button
+              onClick={viewFavorites}
               className={`bg-red-500 transition-transform text-black ${
                 !isTranslated ? 'translated' : ''
               }`}
@@ -293,6 +348,7 @@ export function CryptoApi({ cryptoFav }: US_currency) {
           onChange={handleFilterChange}
         />
       </div>
+      <button onClick={viewfavoritesPg}>view</button>
       {/* end filtering input */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:hidden">
         {/* Use the buttonRef for the button element */}
@@ -516,7 +572,10 @@ export function CryptoApi({ cryptoFav }: US_currency) {
                           ? faStarSolid
                           : faStarRegular
                       }
-                      onClick={() => startClckedFav(cryptoTBLEData)}
+                      onClick={() => {
+                        startClckedFav(cryptoTBLEData.market_cap_rank)
+                        stored(cryptoTBLEData)
+                      }}
                       className="mt-2 starSize hover:cursor-pointer"
                       color={
                         selectedRank &&

@@ -24,7 +24,7 @@ export function FavoriteCrypto({
     <ul className="list-none flex flex-col md:grid md:grid-cols-3 lg:grid lg:grid-cols-3 sm:grid sm:grid-cols-2">
       {currency.map((cryptoCurr, index) => (
         <li key={index}>
-          {/* <img src={cryptoCurr?.image} alt="x" /> */}
+          <img src={cryptoCurr?.image} alt="x" />
           <h2>{cryptoCurr.symbol}</h2>
         </li>
       ))}
