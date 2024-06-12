@@ -6,8 +6,9 @@ export type US_currency = {
   filter?(arg0: (quote: US_currency) => boolean): US_currency[]
   rank?: number
   id: string
-  symbol: string
+  symbol?: string
   name: string
+  cryptoFav?: US_currency
   image: string
   current_price: number
   market_cap: number

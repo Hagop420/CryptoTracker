@@ -60,7 +60,7 @@ import { useCurrency } from '../../lib/useCurrency'
 //   price_change_percentage_24h_in_currency?: number
 // }
 
-export function CryptoApi() {
+export function CryptoApi({ cryptoFav }: { cryptoFav: US_currency[] }) {
   //   type validation for tsx
 
   const navigate = useNavigate()
@@ -70,6 +70,8 @@ export function CryptoApi() {
   const [selectedCryptos, setSelectedCryptos] = useState<US_currency[]>([])
 
   const { setItemFavoriteCrypto, setStoredFavorite } = useCurrency()
+
+  const [isTranslated, setIsTranslated] = useState(false)
 
   // filter state
 
@@ -212,75 +214,34 @@ export function CryptoApi() {
     }
   }
 
-  // function startClckedFav(rank: number) {
-  //   // changing the star color to filled when clicked
-  //   // Check if the clicked star is already selected
-  //   setSelectedRank((prevRanks) => {
-  //     if (prevRanks === null) {
-  //       return [rank]
-  //     }
-  //     // If the rank is already selected, remove it from the array
-  //     if (prevRanks.includes(rank)) {
-  //       setSelectedRank(
-  //         prevRanks.filter((selectedRank) => selectedRank !== rank),
-  //       )
-  //       console.log(prevRanks.filter((selectedRank) => selectedRank !== rank))
-  //       return prevRanks.filter((selectedRank) => selectedRank !== rank)
-  //     } else {
-  //       setSelectedRank([...prevRanks, rank])
-  //       return [...prevRanks, rank]
-  //     }
-  //   })
-  // }
-
-  // function startClckedFav(rank: number) {
-  //   // Use functional update to ensure the state update is based on the previous state
-  //   setSelectedRank((prevRanks) => {
-  //     if (prevRanks === null) {
-  //       return [rank]
-  //     }
-  //     // If the rank is already selected, remove it from the array
-  //     if (prevRanks.includes(rank)) {
-  //       const updatedRanks = prevRanks.filter(
-  //         (selectedRank) => selectedRank !== rank,
-  //       )
-  //       console.log(updatedRanks) // This will log the updated ranks correctly
-  //       return updatedRanks
-  //     } else {
-  //       const updatedRanks = [...prevRanks, rank]
-  //       console.log(updatedRanks) // This will log the updated ranks correctly
-  //       return updatedRanks
-  //     }
-  //   })
-  // }
-
-  const startClckedFav = (rank: number) => {
-    setSelectedRanks((prevRanks) => {
+  function startClckedFav(rank: number) {
+    // changing the star color to filled when clicked
+    // Check if the clicked star is already selected
+    setSelectedRank((prevRanks) => {
+      if (prevRanks === null) {
+        return [rank]
+      }
+      // If the rank is already selected, remove it from the array
       if (prevRanks.includes(rank)) {
-        const updatedRanks = prevRanks.filter(
-          (selectedRank) => selectedRank !== rank,
+        setSelectedRank(
+          prevRanks.filter((selectedRank) => selectedRank !== rank),
         )
-        updateSelectedCryptos(updatedRanks)
-        return updatedRanks
+        console.log(prevRanks.filter((selectedRank) => selectedRank !== rank))
+        return prevRanks.filter((selectedRank) => selectedRank !== rank)
       } else {
-        const updatedRanks = [...prevRanks, rank]
-        updateSelectedCryptos(updatedRanks)
-        return updatedRanks
+        setSelectedRank([...prevRanks, rank])
+        return [...prevRanks, rank]
       }
     })
   }
-
-  const updateSelectedCryptos = (ranks: number[]) => {
-    const updatedCryptos = cryptoMappedApi.filter((crypto) =>
-      ranks.includes(crypto.rank),
-    )
-    setSelectedCryptos(updatedCryptos)
-  }
-
+  const index = 0
   // navigate
   function stored() {
-    if (selectedCryptos.length === 0) return
-    navigate('/favorite_currencies', { state: { selectedCryptos } })
+    //  setItemFavoriteCrypto is defined elsewhere
+    const obj = cryptoFav
+
+    console.log('Selected cryptocurrency:', obj[index].symbol)
+    // navigate('/favorite_currencies') // Navigate to favorite_currencies page
   }
 
   return (
@@ -303,7 +264,14 @@ export function CryptoApi() {
       <div className="m-7">
         {selectedRank?.length ? (
           <div className="flex justify-center">
-            <button onClick={stored}>View Favorite cryptos</button>
+            <button
+              onClick={stored}
+              className={`bg-red-500 transition-transform text-black ${
+                !isTranslated ? 'translated' : ''
+              }`}
+            >
+              View Favorite cryptos
+            </button>
           </div>
         ) : (
           ''

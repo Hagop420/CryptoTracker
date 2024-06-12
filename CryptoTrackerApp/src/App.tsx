@@ -7,6 +7,9 @@ import { Route , Routes} from 'react-router-dom'
 
 function App() {
   const [cryptoItems, setCryptoItems] = useState<US_currency[]>([])
+
+  // const [imageContentStored, setImageContentStored] = useState<US_currency>()
+
   
 
   // Creating the LS function
@@ -22,7 +25,7 @@ function App() {
         localStorage.setItem('Crypto_Information' , JSON.stringify(cryptoItems))
       
     }
-  }, [cryptoItems])
+  } , [cryptoItems])
   
 
 
@@ -52,7 +55,7 @@ function App() {
     <>
       <CryptoProvider value={contextValueCryptoCurrency}>
         <Routes>
-        <Route index element={<CryptoApi />} />
+        <Route index element={<CryptoApi cryptoFav={cryptoItems} />} />
         <Route path='/favorite_currencies' element={<FavoriteCrypto currency={cryptoItems} />} />
         </Routes>
       </CryptoProvider>
