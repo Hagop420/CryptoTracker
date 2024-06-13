@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef, forwardRef, ChangeEvent } from 'react'
-import { LightAndDarkMode } from './Navbar'
 // import { SearchableList } from './SearchableFilter'
 import tippy, { Content } from 'tippy.js'
 import { Link, useNavigate } from 'react-router-dom'
@@ -12,7 +11,7 @@ import noBtcWH from '../assets/img/noBtcWH.jpg'
 import noBtcBL from '../assets/img/noBtcBL.gif'
 import noEntry from '../assets/img/noE.png'
 import React from 'react'
-import { FaArrowAltCircleDown } from 'react-icons/fa'
+import { FaArrowAltCircleDown, FaDollarSign } from 'react-icons/fa'
 import { RiH1 } from 'react-icons/ri'
 import { SiPanasonic } from 'react-icons/si'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -69,6 +68,16 @@ export function CryptoApi() {
 
   const navigate = useNavigate()
 
+  // theme state
+  const [theme, setTheme] = useState(localStorage.getItem('theme') ?? 'lofi')
+
+  // browser theme
+  useEffect(() => {
+    localStorage.setItem('theme', theme)
+    const localTheme = localStorage.getItem('theme') ?? 'lofi'
+    document.querySelector('html')?.setAttribute('data-theme', localTheme)
+  }, [theme])
+
   const [cryptoMappedApi, setCryptoMappedApi] = useState<US_currency[]>([])
 
   const [selectedCryptos, setSelectedCryptos] = useState<US_currency[]>([])
@@ -87,9 +96,6 @@ export function CryptoApi() {
   const filteredData = cryptoMappedApi.filter((item) =>
     item.id.toLowerCase().includes(filter.toLowerCase()),
   )
-
-  // theme state
-  const [theme, setTheme] = useState(localStorage.getItem('theme') ?? 'forest')
 
   // star clr state
 
@@ -286,20 +292,6 @@ export function CryptoApi() {
     setSelectedCryptos(updatedCryptos)
   }
 
-  // const stored = (crypto: US_currency) => {
-  //   let favorites = JSON.parse(localStorage.getItem('Crypto_Information') || '{}',)
-  //   if (favorites.some((fav: US_currency) => fav.id === crypto.id)) {
-  //     // Remove from favorites
-  //     favorites = favorites.filter((fav: US_currency) => fav.id !== crypto.id)
-  //   } else {
-  //     // Add to favorites
-  //     favorites.push(crypto)
-  //   }
-  //   setItemFavoriteCrypto(favorites)
-  //   console.log(favorites)
-  //   console.log('Updated favorites:', favorites)
-  // }
-
   const stored = (crypto: US_currency) => {
     let favorites = JSON.parse(
       localStorage.getItem('Crypto_Information') || '[]',
@@ -333,9 +325,11 @@ export function CryptoApi() {
   return (
     <>
       <div>
-        <nav className="navbar items-center mx-auto justify-cexnter relative bottomx-0 flex xl:justify-around xl:flex xl:">
-          <div className="flex">
-            <span className="text-black -rotate-1 WH">Powered by</span>
+        <nav className="navbar items-center mx-auto justify-around relative bottomx-0 flex ">
+          <div className="flex flex-col md:flex-row">
+            <span className="text-black -rotate-1 WH m-1 md:m-2">
+              Powered by
+            </span>
             {theme === 'forest' ? (
               <img
                 src={CGECKO}
@@ -369,17 +363,20 @@ export function CryptoApi() {
               <button
                 ref={buttonTooltip}
                 onClick={goingToFavoritePage}
-                className="flex container justify-end"
+                className="flex container bg-white justify-end"
               >
-                🤍 💰
+                🖤🚀💲
               </button>
             ) : (
               <button
                 ref={buttonTooltip}
                 onClick={goingToFavoritePage}
-                className="flex container justify-end"
+                className="flex container bg-black justify-end"
               >
-                🖤
+                🤍🚀{' '}
+                <span className="flex items-center m-auto">
+                  <FaDollarSign color="white" />
+                </span>
               </button>
             )}
           </span>
@@ -484,18 +481,15 @@ export function CryptoApi() {
                       : faStarRegular
                   }
                   onClick={() => {
-                    // const rank = cryptos.market_cap_rank
-                    startClckedFav(+cryptos)
+                    startClckedFav(cryptos.market_cap_rank)
+                    stored(cryptos)
                   }}
                   className="mt-2 starSize hover:cursor-pointer"
                   color={
                     selectedRank &&
-                    selectedRank.includes(cryptos.market_cap_rank) &&
-                    theme === 'forest'
-                      ? 'black'
-                      : theme !== 'lofi'
-                      ? 'black'
-                      : 'yellow'
+                    selectedRank.includes(cryptos.market_cap_rank)
+                      ? 'yellow'
+                      : 'black'
                   }
                 />
 

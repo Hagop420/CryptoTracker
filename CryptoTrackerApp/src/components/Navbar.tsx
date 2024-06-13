@@ -31,19 +31,19 @@ export function LightAndDarkMode() {
     }
   }
 
-  const goingToFavoritePage = () => {
+  const goingToHomePage = () => {
     // play the click sound
     const clickSoundEffect = new Audio(
       'https://www.fesliyanstudios.com/play-mp3/387',
     )
     clickSoundEffect.play()
-    navigate('/favorite_currencies')
+    navigate('/')
   }
 
   return (
-    <nav className="navbar items-center mx-auto justify-cexnter relative bottomx-0 flex xl:justify-around xl:flex xl:">
-      <div className="flex">
-        <span className="text-black -rotate-1 WH">Powered by</span>
+    <nav className="navbar items-center mx-auto justify-around relative bottomx-0 flex xl:justify-around xl:flex xl:">
+      <div className="flex flex-col md:flex-row">
+        <span className="text-black -rotate-1 WH m-1 md:m-2">Powered by</span>
         {theme === 'forest' ? (
           <img src={CGECKO} className="h-10 rotate-3" alt="CoinGecko Inc." />
         ) : (
@@ -71,14 +71,14 @@ export function LightAndDarkMode() {
       <span>
         {theme === 'forest' ? (
           <button
-            onClick={goingToFavoritePage}
+            onClick={goingToHomePage}
             className="flex container justify-end bg-white"
           >
             <FaHome color="black" />
           </button>
         ) : (
           <button
-            onClick={goingToFavoritePage}
+            onClick={goingToHomePage}
             className="flex container justify-end"
           >
             <FaHome />
