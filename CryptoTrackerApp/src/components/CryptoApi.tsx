@@ -77,8 +77,6 @@ export function CryptoApi() {
 
   const [selectedCryptos, setSelectedCryptos] = useState<US_currency[]>([])
 
-  const [isTranslated, _] = useState(false)
-
   // filter state
 
   const [filter, setFilter] = useState<string>('')
@@ -87,7 +85,7 @@ export function CryptoApi() {
 
   const [inpReqOk, setInpReqOk] = useState<string>('')
 
-  const [hasAnimated, setHasAnimated] = useState<boolean>(false)
+  const [_, setHasAnimated] = useState<boolean>(false)
 
   // Filtered data based on the filter state
   const filteredData = cryptoMappedApi.filter((item) =>
