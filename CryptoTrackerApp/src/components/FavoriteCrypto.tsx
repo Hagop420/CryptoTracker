@@ -46,9 +46,7 @@ export function FavoriteCrypto({
   return (
     <>
       <div className="top-0 relative">
-        <div className="absolute fle">
-          <LightAndDarkMode />
-        </div>
+        <LightAndDarkMode />
       </div>
 
       <h1 className="text-center ">Cryptos to Purchase</h1>

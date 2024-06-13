@@ -55,7 +55,7 @@ function App() {
     <>
       <CryptoProvider value={contextValueCryptoCurrency}>
         <Routes>
-        <Route index element={<CryptoApi cryptoFav={cryptoItems} />} />
+        <Route index element={<CryptoApi />} />
         <Route path='/favorite_currencies' element={<FavoriteCrypto currency={cryptoItems} />} />
         </Routes>
       </CryptoProvider>
