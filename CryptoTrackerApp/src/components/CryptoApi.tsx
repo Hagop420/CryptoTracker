@@ -160,10 +160,7 @@ export function CryptoApi() {
 
         const data = await response.json()
 
-        // console.log(data)
-
         setCryptoMappedApi(data)
-        // setCryptoIndividual(data)
       } catch (err) {
         console.log(err)
       }
@@ -247,32 +244,7 @@ export function CryptoApi() {
 
   const aboutImageRef = useRef<HTMLButtonElement | null>(null)
 
-  // function startClckedFav(rank: number) {
-  //   // changing the star color to filled when clicked
-  //   // Check if the clicked star is already selected
-  //   setSelectedRank((prevRanks) => {
-  //     if (prevRanks === null) {
-  //       return [rank]
-  //     }
-  //     console.log()
-  //     // If the rank is already selected, remove it from the array
-  //     if (prevRanks.includes(rank)) {
-  //       // setSelectedRank(
-  //       //   prevRanks.filter((selectedRank) => selectedRank !== rank),
-  //       // )
-  //       console.log(prevRanks.filter((selectedRank) => selectedRank !== rank))
-  //       return prevRanks.filter((selectedRank) => selectedRank !== rank)
-  //     } else {
-  //       return [...prevRanks, rank]
-  //     }
-  //   })
-  // }
-
   const startClckedFav = (rank: number) => {
-    // if (selectedRank.length) {
-    //   console.log(834567654)
-    // }
-
     setSelectedRank((prevRanks) => {
       let updatedRanks
       // if(prevRanks === null) return
@@ -291,7 +263,6 @@ export function CryptoApi() {
   useEffect(() => {
     if (aboutImageRef.current) {
       aboutImageRef.current.classList.add('transformAnim')
-      console.log(aboutImageRef)
       setHasAnimated(true)
     }
   })
@@ -316,7 +287,6 @@ export function CryptoApi() {
       favorites.push(crypto)
     }
     localStorage.setItem('Crypto_Information', JSON.stringify(favorites))
-    console.log('Updated favorites:', favorites)
   }
 
   const viewFavorites = () => {
@@ -333,32 +303,6 @@ export function CryptoApi() {
     setSelectedRank(ranks)
     setSelectedCryptos(favorites)
   }, [])
-
-  // document.addEventListener('scroll', () => {
-  //   function appeared() {
-  //     const about_image = document.querySelector(
-  //       '.fade_A',
-  //     ) as HTMLButtonElement | null
-  //     if (!about_image) {
-  //       console.error("Element with class 'fade_A' not found.")
-  //       return
-  //     }
-
-  //     const image_animation_function_pos = about_image.getBoundingClientRect()
-  //       .top
-  //     console.log('Element position from top:', image_animation_function_pos)
-
-  //     const screenImagePosition = window.innerHeight
-  //     console.log('Window inner height:', screenImagePosition)
-
-  //     if (image_animation_function_pos < screenImagePosition) {
-  //       console.log('Adding class App_A to element.')
-  //       about_image.classList.add('App_A')
-  //     }
-  //   }
-
-  //   appeared()
-  // })
 
   return (
     <>
