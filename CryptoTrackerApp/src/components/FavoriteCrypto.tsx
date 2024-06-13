@@ -40,7 +40,7 @@ export function FavoriteCrypto({
   }
 
   if (currency.length === 0) {
-    return <h1>gay</h1>
+    return <h1>no cryptos..... In production</h1>
   }
 
   return (
