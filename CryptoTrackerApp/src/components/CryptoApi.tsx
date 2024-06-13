@@ -1,24 +1,19 @@
-import { useState, useEffect, useRef, forwardRef, ChangeEvent } from 'react'
+import { useState, useEffect, useRef } from 'react'
 // import { SearchableList } from './SearchableFilter'
-import tippy, { Content } from 'tippy.js'
-import { Link, useNavigate } from 'react-router-dom'
+import tippy from 'tippy.js'
+import { useNavigate } from 'react-router-dom'
 import 'tippy.js/dist/tippy.css' // Import Tippy.js CSS
 import 'animate.css'
 import 'tippy.js/themes/translucent.css'
-import { faStar as farStar } from '@fortawesome/free-regular-svg-icons'
 import '../css/cryptoApi.css'
-import noBtcWH from '../assets/img/noBtcWH.jpg'
 import noBtcBL from '../assets/img/noBtcBL.gif'
 import noEntry from '../assets/img/noE.png'
 import React from 'react'
 import { FaArrowAltCircleDown, FaDollarSign } from 'react-icons/fa'
-import { RiH1 } from 'react-icons/ri'
-import { SiPanasonic } from 'react-icons/si'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar as faStarRegular } from '@fortawesome/free-regular-svg-icons'
 import { faStar as faStarSolid } from '@fortawesome/free-solid-svg-icons'
 import { US_currency } from './CryptoProvider'
-import { useCurrency } from '../../lib/useCurrency'
 import CGECKO from '../assets/img/CGeckoLG.png'
 import MtBTC from '../assets/img/MtB.png'
 import CKOdrk from '../assets/img/cgko.png'
@@ -82,7 +77,7 @@ export function CryptoApi() {
 
   const [selectedCryptos, setSelectedCryptos] = useState<US_currency[]>([])
 
-  const [isTranslated, setIsTranslated] = useState(false)
+  const [isTranslated, _] = useState(false)
 
   // filter state
 

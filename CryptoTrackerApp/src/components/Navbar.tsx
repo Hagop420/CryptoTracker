@@ -1,10 +1,9 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import CGECKO from '../assets/img/CGeckoLG.png'
 import MtBTC from '../assets/img/MtB.png'
 import CKOdrk from '../assets/img/cgko.png'
 import $$$$$$$$$$$$$$$$$$$$$$$$$$$$$ from '../assets/img/$.png'
 import { useNavigate } from 'react-router-dom'
-import tippy from 'tippy.js'
 import { FaHome } from 'react-icons/fa'
 
 export function LightAndDarkMode() {

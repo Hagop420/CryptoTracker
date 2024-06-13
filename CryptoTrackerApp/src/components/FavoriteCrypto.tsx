@@ -11,7 +11,7 @@ type CryptoStoringImagesAndContentProp = {
 export function FavoriteCrypto({
   currency,
 }: CryptoStoringImagesAndContentProp) {
-  const { setStoredFavorite, setItemFavoriteCrypto } = useCurrency()
+  const { setStoredFavorite } = useCurrency()
 
   // get my local storage items
   useEffect(() => {
