@@ -29,12 +29,20 @@
   margin-top: 3px;
 }
 
+.translated {
+  transform: translateY(20px); /* Adjust the value as needed */
+  transition: transform 0.3s ease; /* Adjust the duration and easing function as needed */
+}
+
 /* when theme changes to light/night */
 .cryptoNamedAlign {
   position: relative;
   top: 41.5px;
 }
 [data-theme='light'] .ST {
+  color: #000;
+}
+[data-theme='forest'] .FST_BL {
   color: #000;
 }
 [data-theme='forest'] .starSize {
@@ -50,7 +58,7 @@
   color: #000;
 }
 [data-theme='light'] .Blvk {
-  color: #000;
+  color: #000 !important;
 }
 [data-theme='light'] .BLFL::first-letter {
   color: #000;
