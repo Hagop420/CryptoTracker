@@ -87,6 +87,8 @@ export function CryptoApi() {
 
   const [inpReqOk, setInpReqOk] = useState<string>('')
 
+  const [hasAnimated, setHasAnimated] = useState<boolean>(false)
+
   // Filtered data based on the filter state
   const filteredData = cryptoMappedApi.filter((item) =>
     item.id.toLowerCase().includes(filter.toLowerCase()),
@@ -245,6 +247,8 @@ export function CryptoApi() {
     }
   }
 
+  const aboutImageRef = useRef<HTMLButtonElement | null>(null)
+
   // function startClckedFav(rank: number) {
   //   // changing the star color to filled when clicked
   //   // Check if the clicked star is already selected
@@ -267,23 +271,38 @@ export function CryptoApi() {
   // }
 
   const startClckedFav = (rank: number) => {
+    // if (selectedRank.length) {
+    //   console.log(834567654)
+    // }
+
     setSelectedRank((prevRanks) => {
       let updatedRanks
       // if(prevRanks === null) return
       if (prevRanks.includes(rank)) {
         updatedRanks = prevRanks.filter((selectedRank) => selectedRank !== rank)
+        setHasAnimated(false) // Reset animation flag when unfilled
       } else {
         updatedRanks = [...prevRanks, rank]
       }
+
       updateSelectedCryptos(updatedRanks)
       return updatedRanks
     })
   }
 
+  useEffect(() => {
+    if (aboutImageRef.current) {
+      aboutImageRef.current.classList.add('transformAnim')
+      console.log(aboutImageRef)
+      setHasAnimated(true)
+    }
+  })
+
   const updateSelectedCryptos = (ranks: number[]) => {
     const updatedCryptos = cryptoMappedApi.filter((crypto) =>
       ranks.includes(crypto.market_cap_rank),
     )
+
     setSelectedCryptos(updatedCryptos)
   }
 
@@ -316,6 +335,32 @@ export function CryptoApi() {
     setSelectedRank(ranks)
     setSelectedCryptos(favorites)
   }, [])
+
+  // document.addEventListener('scroll', () => {
+  //   function appeared() {
+  //     const about_image = document.querySelector(
+  //       '.fade_A',
+  //     ) as HTMLButtonElement | null
+  //     if (!about_image) {
+  //       console.error("Element with class 'fade_A' not found.")
+  //       return
+  //     }
+
+  //     const image_animation_function_pos = about_image.getBoundingClientRect()
+  //       .top
+  //     console.log('Element position from top:', image_animation_function_pos)
+
+  //     const screenImagePosition = window.innerHeight
+  //     console.log('Window inner height:', screenImagePosition)
+
+  //     if (image_animation_function_pos < screenImagePosition) {
+  //       console.log('Adding class App_A to element.')
+  //       about_image.classList.add('App_A')
+  //     }
+  //   }
+
+  //   appeared()
+  // })
 
   return (
     <>
@@ -426,14 +471,13 @@ export function CryptoApi() {
       {/* filter input */}
       <h2 className="nestTTl text-black WH font-bold">CryptoNest 🧺</h2>
 
-      <div className="m-7">
+      <div className="">
         {selectedRank?.length ? (
           <div className="flex justify-center">
             <button
+              ref={aboutImageRef}
               onClick={viewFavorites}
-              className={`bg-red-500 transition-transform text-black ${
-                !isTranslated ? 'translated' : ''
-              }`}
+              className="bg-red-500 text-black aboutImageRef"
             >
               View Favorite cryptos
             </button>
