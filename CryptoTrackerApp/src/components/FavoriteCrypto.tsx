@@ -3,7 +3,7 @@ import { US_currency } from './CryptoProvider'
 import noCryptosSelected from '../assets/img/noCryptos.png'
 import { LightAndDarkMode } from './Navbar'
 import { useEffect } from 'react'
-import { FaArrowAltCircleDown, FaCross } from 'react-icons/fa'
+import { FaArrowAltCircleDown } from 'react-icons/fa'
 import { FaX } from 'react-icons/fa6'
 import '../css/cryptoApi.css'
 
