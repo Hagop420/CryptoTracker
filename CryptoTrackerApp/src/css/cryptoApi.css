@@ -15,6 +15,10 @@
   color: yellow;
 }
 
+[data-theme='light'] .starSize:hover {
+  color: #000;
+}
+
 /* MAG glass */
 .search {
   padding-left: 20px;
@@ -77,6 +81,9 @@
 }
 [data-theme='light'] .Blvk {
   color: #000 !important;
+}
+[data-theme='light'] .BLD {
+  font-weight: bold;
 }
 [data-theme='light'] .BLFL::first-letter {
   color: #000;

@@ -184,36 +184,71 @@ export function CryptoApi() {
     )
 
     validButtonRefs.forEach((buttonRef) => {
-      tippy(buttonRef.current!, {
-        content: 'Remember',
-        placement: 'top',
-        theme: 'translucent',
-        // Additional options as needed
-        appendTo: () => document.body, // Ensuring the tooltip is appended to body
-        allowHTML: true, // Allow HTML content in the tooltip
-        onShow(instance) {
-          // Adding a custom class to the tooltip content
-          const tooltipContent = instance.popper?.querySelector(
-            '.tippy-content',
-          )
-
-          if (tooltipContent) {
-            const currentTheme = document.documentElement.getAttribute(
-              'data-theme',
+      if (isFilled) {
+        tippy(buttonRef.current!, {
+          content: 'Remember',
+          placement: 'top',
+          theme: 'translucent',
+          // Additional options as needed
+          appendTo: () => document.body, // Ensuring the tooltip is appended to body
+          allowHTML: true, // Allow HTML content in the tooltip
+          onShow(instance) {
+            // Adding a custom class to the tooltip content
+            const tooltipContent = instance.popper?.querySelector(
+              '.tippy-content',
             )
-            if (currentTheme === 'light') {
-              ;(tooltipContent as HTMLElement).style.color = '#fff'
-              ;(tooltipContent as HTMLElement).style.fontWeight = '#000'
-            } else {
-              // ;(tooltipContent as HTMLElement).parentNode.style.background ===
-              //   '#fff'
-              ;(tooltipContent as HTMLElement).style.color = '#000'
-              ;(tooltipContent as HTMLElement).style.fontWeight = 'bold'
-              ;(tooltipContent as HTMLElement).style.background = '#fff'
+
+            if (tooltipContent) {
+              const currentTheme = document.documentElement.getAttribute(
+                'data-theme',
+              )
+              if (currentTheme === 'light') {
+                ;(tooltipContent as HTMLElement).style.color = '#fff'
+                ;(tooltipContent as HTMLElement).style.fontWeight = '#000'
+              } else {
+                // ;(tooltipContent as HTMLElement).parentNode.style.background ===
+                //   '#fff'
+                ;(tooltipContent as HTMLElement).style.color = '#000'
+                ;(tooltipContent as HTMLElement).style.fontWeight = 'bold'
+                ;(tooltipContent as HTMLElement).style.background = '#fff'
+              }
             }
-          }
-        },
-      })
+          },
+        })
+      }
+      // if (isFilled) {
+      //   tippy(buttonRef.current!, {
+      //     content: '',
+      //     placement: 'top',
+      //     theme: 'translucent',
+      //     // Additional options as needed
+      //     appendTo: () => document.body, // Ensuring the tooltip is appended to body
+      //     allowHTML: true, // Allow HTML content in the tooltip
+      //     onShow(instance) {
+      //       // Adding a custom class to the tooltip content
+      //       const tooltipContent = instance.popper?.querySelector(
+      //         '.tippy-content',
+      //       )
+
+      //       if (tooltipContent) {
+      //         const currentTheme = document.documentElement.getAttribute(
+      //           'data-theme',
+      //         )
+      //         if (currentTheme === 'light') {
+      //           ;(tooltipContent as HTMLElement).style.color = '#fff'
+      //           ;(tooltipContent as HTMLElement).style.fontWeight = '#000'
+      //         } else {
+      //           // ;(tooltipContent as HTMLElement).parentNode.style.background ===
+      //           //   '#fff'
+      //           ;(tooltipContent as HTMLElement).style.color = '#000'
+      //           ;(tooltipContent as HTMLElement).style.fontWeight = 'bold'
+      //           ;(tooltipContent as HTMLElement).style.background = '#fff'
+      //         }
+      //       }
+      //     },
+      //   })
+      // }
+      console.log(isFilled)
     })
   }, [filteredData])
 
@@ -242,6 +277,8 @@ export function CryptoApi() {
     }
   }
 
+  const [isFilled, setIsFilled] = useState(false)
+
   const aboutImageRef = useRef<HTMLButtonElement | null>(null)
 
   const startClckedFav = (rank: number) => {
@@ -251,14 +288,59 @@ export function CryptoApi() {
       if (prevRanks.includes(rank)) {
         updatedRanks = prevRanks.filter((selectedRank) => selectedRank !== rank)
         setHasAnimated(false) // Reset animation flag when unfilled
+        setIsFilled(false) // Set isFilled to false when unfilled
       } else {
         updatedRanks = [...prevRanks, rank]
+        setIsFilled(true) // Set isFilled to true when filled
       }
 
       updateSelectedCryptos(updatedRanks)
       return updatedRanks
     })
   }
+
+  //   useEffect(() => {
+
+  //     // Filter out null values from buttonRefs.current array
+  //     const validButtonRefs = buttonRefs.current.filter(
+  //       (ref) => ref.current !== null,
+  //     )
+  //     if (!isFilled) {
+  //       validButtonRefs.forEach((buttonRef) => {
+  //         tippy(buttonRef.current!, {
+  //           content: 'Remember',
+  //           placement: 'top',
+  //           theme: 'translucent',
+  //           // Additional options as needed
+  //           appendTo: () => document.body, // Ensuring the tooltip is appended to body
+  //           allowHTML: true, // Allow HTML content in the tooltip
+  //           onShow(instance) {
+  //             // Adding a custom class to the tooltip content
+  //             const tooltipContent = instance.popper?.querySelector(
+  //               '.tippy-content',
+  //             )
+
+  //             if (tooltipContent) {
+  //               const currentTheme = document.documentElement.getAttribute(
+  //                 'data-theme',
+  //               )
+  //               if (currentTheme === 'light') {
+  //                 ; (tooltipContent as HTMLElement).style.color = '#fff'
+  //                   ; (tooltipContent as HTMLElement).style.fontWeight = '#000'
+  //               } else {
+  //                 // ;(tooltipContent as HTMLElement).parentNode.style.background ===
+  //                 //   '#fff'
+  //                 ; (tooltipContent as HTMLElement).style.color = '#000'
+  //                   ; (tooltipContent as HTMLElement).style.fontWeight = 'bold'
+  //                   ; (tooltipContent as HTMLElement).style.background = '#fff'
+  //               }
+  //             }
+  //           },
+  //         })
+  //       }
+
+  //   })
+  // }, [])
 
   useEffect(() => {
     if (aboutImageRef.current) {
@@ -288,6 +370,8 @@ export function CryptoApi() {
     }
     localStorage.setItem('Crypto_Information', JSON.stringify(favorites))
   }
+
+  console.log(buttonRefs.current)
 
   const viewFavorites = () => {
     if (selectedCryptos.length === 0) return
@@ -694,7 +778,7 @@ export function CryptoApi() {
                     cryptoTBLEData.price_change_24h * 100 <=
                       cryptoTBLEData.market_cap_change_percentage_24h ? (
                       <>
-                        <p className="text-green-400">
+                        <p className="text-green-400 BLD">
                           <svg
                             className="mx-auto"
                             stroke="currentColor"
@@ -733,7 +817,7 @@ export function CryptoApi() {
                             d="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z"
                           ></path>
                         </svg>
-                        <p className="text-red-400">
+                        <p className="text-red-400 BLD">
                           {getFirstTwoDecimalNumbers(
                             cryptoTBLEData.price_change_percentage_24h,
                           )}
@@ -746,7 +830,7 @@ export function CryptoApi() {
                     {(cryptoTBLEData.price_change_24h * 7) / 2 <=
                     cryptoTBLEData.market_cap_change_percentage_24h ? (
                       <>
-                        <p className="text-red-400">
+                        <p className="text-red-400 BLD">
                           <svg
                             className="mx-auto text-red-400"
                             stroke="currentColor"
