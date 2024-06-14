@@ -50,7 +50,7 @@ export function FavoriteCrypto({
         </div>
         <div className="flex flex-col items-center text-center mx-auto justify-center">
           <h2
-            className="flex FST_BL items-center text-1xl m-5 sm:flex sm:items-center sm:text-2xl sm:m-5 
+            className="flex FINN items-center text-1xl m-5 sm:flex sm:items-center sm:text-2xl sm:m-5 
           md:flex md:items-center md:text-3xl md:m-5 lg:flex lg:items-center lg:text-4xl lg:m-5 xl:flex xl:items-center xl:text-4xl xl:m-5"
           >
             No currency(s) Selected at this time
@@ -68,7 +68,7 @@ export function FavoriteCrypto({
         <LightAndDarkMode />
       </div>
 
-      <h1 className="text-center FST_BL text-black WH">Cryptos to Purchase</h1>
+      <h1 className="text-center FINN FST_BL">Cryptos to Purchase</h1>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:hidden">
         {/* Use the buttonRef for the button element */}
 

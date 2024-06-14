@@ -63,7 +63,7 @@
 [data-theme='light'] .ST {
   color: #000;
 }
-[data-theme='forest'] .FST_BL {
+[data-theme='light'] .FST_BL {
   color: #000;
 }
 [data-theme='forest'] .starSize {
@@ -95,6 +95,9 @@
 
 [data-theme='light'] .BC {
   border-color: #000;
+}
+[data-theme='forest'] .FINN {
+  color: #fff;
 }
 [data-theme='light'] .HGT_Img {
   height: 450px;
