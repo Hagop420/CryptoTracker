@@ -216,39 +216,6 @@ export function CryptoApi() {
           },
         })
       }
-      // if (isFilled) {
-      //   tippy(buttonRef.current!, {
-      //     content: '',
-      //     placement: 'top',
-      //     theme: 'translucent',
-      //     // Additional options as needed
-      //     appendTo: () => document.body, // Ensuring the tooltip is appended to body
-      //     allowHTML: true, // Allow HTML content in the tooltip
-      //     onShow(instance) {
-      //       // Adding a custom class to the tooltip content
-      //       const tooltipContent = instance.popper?.querySelector(
-      //         '.tippy-content',
-      //       )
-
-      //       if (tooltipContent) {
-      //         const currentTheme = document.documentElement.getAttribute(
-      //           'data-theme',
-      //         )
-      //         if (currentTheme === 'light') {
-      //           ;(tooltipContent as HTMLElement).style.color = '#fff'
-      //           ;(tooltipContent as HTMLElement).style.fontWeight = '#000'
-      //         } else {
-      //           // ;(tooltipContent as HTMLElement).parentNode.style.background ===
-      //           //   '#fff'
-      //           ;(tooltipContent as HTMLElement).style.color = '#000'
-      //           ;(tooltipContent as HTMLElement).style.fontWeight = 'bold'
-      //           ;(tooltipContent as HTMLElement).style.background = '#fff'
-      //         }
-      //       }
-      //     },
-      //   })
-      // }
-      console.log(isFilled)
     })
   }, [filteredData])
 
