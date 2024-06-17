@@ -371,8 +371,6 @@ export function CryptoApi() {
     localStorage.setItem('Crypto_Information', JSON.stringify(favorites))
   }
 
-  console.log(buttonRefs.current)
-
   const viewFavorites = () => {
     if (selectedCryptos.length === 0) return
     navigate('/favorite_currencies', { state: { selectedCryptos } })
@@ -505,7 +503,7 @@ export function CryptoApi() {
               onClick={viewFavorites}
               className="bg-red-500 text-black aboutImageRef"
             >
-              View Favorite cryptos
+              View Favorite crypto(s)
             </button>
           </div>
         ) : (
@@ -766,6 +764,9 @@ export function CryptoApi() {
                         title={cryptoTBLEData.id}
                       />
                     </div>
+                    <span className="mt-5 Blvk BLD">
+                      {cryptoTBLEData.symbol}
+                    </span>
                   </div>
 
                   <hr className="invisible" />

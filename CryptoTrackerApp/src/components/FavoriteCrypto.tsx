@@ -68,7 +68,11 @@ export function FavoriteCrypto({
         <LightAndDarkMode />
       </div>
 
-      <h1 className="text-center FINN FST_BL">Cryptos to Purchase</h1>
+      {currency.length === 1 ? (
+        <h1 className="text-center FINN FST_BL">Crypto to Purchase</h1>
+      ) : (
+        <h1 className="text-center FINN FST_BL">Cryptos to Purchase</h1>
+      )}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:hidden">
         {/* Use the buttonRef for the button element */}
 
@@ -218,6 +222,23 @@ export function FavoriteCrypto({
       </div>
 
       <table className="hidden TBLgr xl:flex xl:flex-col">
+        <div>
+          <tr className="flex justify-around m-2 capitalize mx-auto">
+            {/* {filteredData.length === 0 &&} */}
+
+            <th className="Blvk">#</th>
+            <th className="ST text-2xl text-center first-letter:text-yellow-500 BLFL">
+              coin
+            </th>
+            <hr className="invisible" />
+            <th className="ST text-2xl">current price</th>
+            <th className="ST text-2xl">24h</th>
+            <th className="ST text-2xl">1W</th>
+            <th className="ST text-2xl">24h volume</th>
+            <th className="ST text-2xl">market cap</th>
+          </tr>
+          <hr className="border-2 border-black YL" />
+        </div>
         {currency.map((cryptoTBLEData, index) => (
           <>
             <tr key={index}>
@@ -233,6 +254,7 @@ export function FavoriteCrypto({
                         title={cryptoTBLEData.id}
                       />
                     </div>
+                    <span className="mt-5 Blvk BLD">{`${cryptoTBLEData.id}(${cryptoTBLEData.symbol})`}</span>
                   </div>
 
                   <hr className="invisible" />
@@ -245,7 +267,7 @@ export function FavoriteCrypto({
                     cryptoTBLEData.price_change_24h * 100 <=
                       cryptoTBLEData.market_cap_change_percentage_24h ? (
                       <>
-                        <p className="text-green-400">
+                        <p className="text-green-400 BLD">
                           <svg
                             className="mx-auto"
                             stroke="currentColor"
@@ -297,7 +319,7 @@ export function FavoriteCrypto({
                     {(cryptoTBLEData.price_change_24h * 7) / 2 <=
                     cryptoTBLEData.market_cap_change_percentage_24h ? (
                       <>
-                        <p className="text-red-400">
+                        <p className="text-red-400 BLD">
                           <svg
                             className="mx-auto text-red-400"
                             stroke="currentColor"

@@ -79,6 +79,9 @@
 [data-theme='light'] .CN {
   color: #000;
 }
+[data-theme='forest'] .YL {
+  border-color: yellow;
+}
 [data-theme='light'] .Blvk {
   color: #000 !important;
 }
