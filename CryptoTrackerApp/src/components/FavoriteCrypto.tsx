@@ -2,7 +2,7 @@ import { useCurrency } from '/Users/hbamb420/CryptoTracker/CryptoTrackerApp/lib/
 import { US_currency } from './CryptoProvider'
 import noCryptosSelected from '../assets/img/noCryptos.png'
 import { LightAndDarkMode } from './Navbar'
-import { useEffect } from 'react'
+import { useEffect , useState } from 'react'
 import { FaArrowAltCircleDown } from 'react-icons/fa'
 import { FaX } from 'react-icons/fa6'
 import '../css/cryptoApi.css'
@@ -10,6 +10,8 @@ import '../css/cryptoApi.css'
 type CryptoStoringImagesAndContentProp = {
   currency: US_currency[]
 }
+
+
 
 export function FavoriteCrypto({
   currency,
@@ -20,6 +22,11 @@ export function FavoriteCrypto({
   useEffect(() => {
     setStoredFavorite()
   }, [])
+
+  // state for theme
+
+  const [theme, setTheme] = useState(localStorage.getItem('theme') ?? 'lofi')
+
 
   // Function to format prices
   const formatPrice = (price: number): string => {
@@ -42,7 +49,7 @@ export function FavoriteCrypto({
     return truncatedNumber
   }
 
-  if (currency.length === 0) {
+  if (theme === 'light' && currency.length === 0) {
     return (
       <>
         <div>
@@ -50,17 +57,20 @@ export function FavoriteCrypto({
         </div>
         <div className="flex flex-col items-center text-center mx-auto justify-center">
           <h2
-            className="flex FINN items-center text-1xl m-5 sm:flex sm:items-center sm:text-2xl sm:m-5 
+            className="flex FINN items-center text-1xl m-5 sm:flex sm:items-center sm:text-2xl sm:m-5 text-black font-bold
           md:flex md:items-center md:text-3xl md:m-5 lg:flex lg:items-center lg:text-4xl lg:m-5 xl:flex xl:items-center xl:text-4xl xl:m-5"
           >
             No currency(s) Selected at this time
-            <FaX />
+            {/* <FaX /> */}
           </h2>
           <img src={noCryptosSelected} alt="" />
         </div>
       </>
     )
   }
+
+ 
+
 
   return (
     <>

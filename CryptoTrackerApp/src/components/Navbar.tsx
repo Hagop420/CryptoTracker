@@ -8,9 +8,6 @@ import { FaHome } from 'react-icons/fa'
 
 export function LightAndDarkMode() {
   const [theme, setTheme] = useState(localStorage.getItem('theme') ?? 'lofi')
-
-  console.log(theme)
-
   const navigate = useNavigate()
 
   // THEME CURRENT STATE
