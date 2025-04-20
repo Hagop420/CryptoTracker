@@ -4,7 +4,6 @@ import noCryptosSelected from '../assets/img/noCryptos.png'
 import { LightAndDarkMode } from './Navbar'
 import { useEffect , useState } from 'react'
 import { FaArrowAltCircleDown } from 'react-icons/fa'
-import { FaX } from 'react-icons/fa6'
 import '../css/cryptoApi.css'
 
 type CryptoStoringImagesAndContentProp = {
@@ -25,7 +24,7 @@ export function FavoriteCrypto({
 
   // state for theme
 
-  const [theme, setTheme] = useState(localStorage.getItem('theme') ?? 'lofi')
+  const [theme] = useState(localStorage.getItem('theme') ?? 'lofi')
 
 
   // Function to format prices
