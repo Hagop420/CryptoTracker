@@ -49,7 +49,7 @@ export function FavoriteCrypto({
     return truncatedNumber
   }
 
-  if (theme === 'light' && currency.length === 0) {
+  if (theme === 'light' || theme === 'forest' && currency.length === 0) {
     return (
       <>
         <div>

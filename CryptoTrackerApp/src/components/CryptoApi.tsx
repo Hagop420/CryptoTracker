@@ -534,7 +534,8 @@ export function CryptoApi() {
                 />
               </div>
               <p className="text-center capitalize font-bold p-1 ST">
-                {cryptos.id}
+                {/* {cryptos.id} */}
+                {theme === 'light' ? <p color='red'>{cryptos.id}</p> : <p color='white'>{cryptos.id}</p>}
               </p>
               <small className="text-center capitalize font-light ST">
                 {`(${cryptos.symbol})`}
