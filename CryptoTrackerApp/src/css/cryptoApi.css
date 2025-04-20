@@ -100,10 +100,13 @@
   border-color: #000;
 }
 [data-theme='forest'] .FINN {
-  color: #fff;
+  color: white;
 }
 [data-theme='light'] .HGT_Img {
   height: 450px;
+}
+[data-theme='light'] .BLKOUT {
+  color: black;
 }
 
 [data-theme='light'] .starClrLght:hover {

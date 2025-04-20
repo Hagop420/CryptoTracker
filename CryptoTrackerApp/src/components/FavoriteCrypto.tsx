@@ -48,7 +48,7 @@ export function FavoriteCrypto({
     return truncatedNumber
   }
 
-  if (theme === 'light' || theme === 'forest' && currency.length === 0) {
+  if (theme === 'light' && currency.length === 0) {
     return (
       <>
         <div>
@@ -56,7 +56,7 @@ export function FavoriteCrypto({
         </div>
         <div className="flex flex-col items-center text-center mx-auto justify-center">
           <h2
-            className="flex FINN items-center text-1xl m-5 sm:flex sm:items-center sm:text-2xl sm:m-5 text-black font-bold
+            className="flex FINN BLKOUT items-center text-1xl m-5 sm:flex sm:items-center sm:text-2xl sm:m-5 font-bold
           md:flex md:items-center md:text-3xl md:m-5 lg:flex lg:items-center lg:text-4xl lg:m-5 xl:flex xl:items-center xl:text-4xl xl:m-5"
           >
             No currency(s) Selected at this time
